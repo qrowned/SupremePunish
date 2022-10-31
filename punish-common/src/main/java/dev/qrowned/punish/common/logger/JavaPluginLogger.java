@@ -5,7 +5,7 @@ import dev.qrowned.punish.api.logger.PluginLogger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class JavaPluginLogger implements PluginLogger {
+public final class JavaPluginLogger implements PluginLogger {
     private final Logger logger;
 
     public JavaPluginLogger(Logger logger) {

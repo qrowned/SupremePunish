@@ -1,25 +1,14 @@
 package dev.qrowned.punish.bungee;
 
-import dev.qrowned.punish.api.bootstrap.LoaderBootstrap;
-import dev.qrowned.punish.bungee.bootstrap.PunishBungeeBootstrap;
-import net.md_5.bungee.api.plugin.Plugin;
+import dev.qrowned.punish.api.bootstrap.PunishBootstrap;
+import dev.qrowned.punish.common.AbstractPunishPlugin;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-public final class PunishBungeePlugin extends Plugin {
+@Getter
+@RequiredArgsConstructor
+public final class PunishBungeePlugin extends AbstractPunishPlugin {
 
-    private final LoaderBootstrap loaderBootstrap = new PunishBungeeBootstrap(this);
+    private final PunishBootstrap bootstrap;
 
-    @Override
-    public void onLoad() {
-        this.loaderBootstrap.onLoad();
-    }
-
-    @Override
-    public void onEnable() {
-        this.loaderBootstrap.onEnable();
-    }
-
-    @Override
-    public void onDisable() {
-        this.loaderBootstrap.onDisable();
-    }
 }
