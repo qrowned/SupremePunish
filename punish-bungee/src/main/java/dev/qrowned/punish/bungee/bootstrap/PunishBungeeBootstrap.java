@@ -1,21 +1,15 @@
 package dev.qrowned.punish.bungee.bootstrap;
 
-import dev.qrowned.license.api.data.LicenseData;
-import dev.qrowned.license.api.exception.LicenseInvalidException;
-import dev.qrowned.punish.api.PunishPlugin;
 import dev.qrowned.punish.api.bootstrap.LoaderBootstrap;
 import dev.qrowned.punish.api.bootstrap.PunishBootstrap;
 import dev.qrowned.punish.api.logger.PluginLogger;
 import dev.qrowned.punish.api.platform.Platform;
-import dev.qrowned.punish.api.util.LicenseCheckerUtil;
 import dev.qrowned.punish.bungee.PunishBungeePlugin;
-import dev.qrowned.punish.common.config.impl.LicenseConfig;
 import dev.qrowned.punish.common.logger.JavaPluginLogger;
 import lombok.SneakyThrows;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.time.Instant;
 
 public final class PunishBungeeBootstrap implements PunishBootstrap, LoaderBootstrap {
