@@ -1,10 +1,14 @@
 package dev.qrowned.punish.bungee.bootstrap;
 
+import dev.qrowned.license.api.data.LicenseData;
+import dev.qrowned.license.api.exception.LicenseInvalidException;
 import dev.qrowned.punish.api.bootstrap.LoaderBootstrap;
 import dev.qrowned.punish.api.bootstrap.PunishBootstrap;
 import dev.qrowned.punish.api.logger.PluginLogger;
 import dev.qrowned.punish.api.platform.Platform;
+import dev.qrowned.punish.api.util.LicenseCheckerUtil;
 import dev.qrowned.punish.bungee.PunishBungeePlugin;
+import dev.qrowned.punish.common.config.impl.LicenseConfig;
 import dev.qrowned.punish.common.logger.JavaPluginLogger;
 import lombok.SneakyThrows;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -26,7 +30,6 @@ public final class PunishBungeeBootstrap implements PunishBootstrap, LoaderBoots
     }
 
     @Override
-    @SneakyThrows
     public void onLoad() {
         this.pluginLogger = new JavaPluginLogger(this.loader.getLogger());
         this.startupTime = Instant.now();
@@ -35,7 +38,18 @@ public final class PunishBungeeBootstrap implements PunishBootstrap, LoaderBoots
     }
 
     @Override
+    @SneakyThrows
     public void onEnable() {
+        // check license
+        LicenseConfig licenseConfig = this.plugin.getConfigProvider().getConfig("license", LicenseConfig.class);
+        LicenseData licenseData = LicenseCheckerUtil.checkLicense(licenseConfig.getLicense());
+        if (licenseData == null) {
+            this.pluginLogger.severe("Your license is not valid! Please purchase the plugin or visit our support at url.qrowned.dev/discord !");
+            throw new LicenseInvalidException(licenseConfig.getLicense());
+        } else {
+            this.pluginLogger.info("Your license is valid! | Expiration: " + licenseData.getExpirationDate());
+        }
+
         this.plugin.enable();
     }
 

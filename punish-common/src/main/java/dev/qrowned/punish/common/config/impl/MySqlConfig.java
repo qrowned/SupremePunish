@@ -1,19 +1,20 @@
 package dev.qrowned.punish.common.config.impl;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
 public final class MySqlConfig {
 
-    private final String hostname;
-    private final int port;
-    private final String database;
-    private final String username;
-    private final String password;
+    private String hostname;
+    private int port;
+    private String database;
+    private String username;
+    private String password;
 
-    private final int minIdle;
-    private final int maxPoolSize;
+    private int minIdle;
+    private int maxPoolSize;
 
 }

@@ -1,0 +1,9 @@
+{
+  "hostname": "localhost",
+  "port": 3306,
+  "username": "root",
+  "password": "root",
+  "database": "supreme_punish",
+  "minIdle": 3,
+  "maxPoolSize": 50
+}

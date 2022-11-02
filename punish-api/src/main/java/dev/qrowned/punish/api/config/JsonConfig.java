@@ -46,7 +46,7 @@ public final class JsonConfig<T> {
             this.file.createNewFile();
             this.config = (T) this.clazz.getConstructors()[0].newInstance();
 
-            InputStream inputStream = this.getResource(this.configName);
+            InputStream inputStream = this.getResource(this.configName + ".json");
             if (inputStream != null) {
                 FileUtils.copyInputStreamToFile(inputStream, this.file);
             } else {

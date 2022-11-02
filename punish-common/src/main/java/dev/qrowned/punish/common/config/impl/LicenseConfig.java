@@ -1,14 +1,15 @@
 package dev.qrowned.punish.common.config.impl;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
 public final class LicenseConfig {
 
-    private final UUID license;
+    private UUID license;
 
 }
