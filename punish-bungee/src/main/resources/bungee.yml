@@ -1,0 +1,4 @@
+name: SupremePunish
+version: 1.0.0
+description: A professional BungeeCord extension for punishments.
+main: dev.qrowned.punish.bungee.loader.PunishBungeeLoader
