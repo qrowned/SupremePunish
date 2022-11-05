@@ -22,4 +22,5 @@ public final class PunishBungeeLoader extends Plugin {
     public void onDisable() {
         this.loaderBootstrap.onDisable();
     }
+
 }

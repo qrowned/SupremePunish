@@ -1,4 +1,4 @@
-package dev.qrowned.punish.api.util;
+package dev.qrowned.punish.common.util;
 
 import dev.qrowned.license.api.data.LicenseData;
 import dev.qrowned.license.client.LicenseHandler;
@@ -12,8 +12,7 @@ public final class LicenseCheckerUtil {
     private static final LicenseHandler LICENSE_HANDLER = new LicenseHandler(UUID.fromString("41adc24e-e5db-4357-8fe5-79bb7f50e69a"));
 
     public static LicenseData checkLicense(@NotNull UUID key) throws IOException {
-        LicenseData licenseData = LICENSE_HANDLER.authenticate(key);
-        return licenseData;
+        return LICENSE_HANDLER.authenticate(key);
     }
 
 }

@@ -6,11 +6,13 @@ import dev.qrowned.punish.api.bootstrap.LoaderBootstrap;
 import dev.qrowned.punish.api.bootstrap.PunishBootstrap;
 import dev.qrowned.punish.api.logger.PluginLogger;
 import dev.qrowned.punish.api.platform.Platform;
-import dev.qrowned.punish.api.util.LicenseCheckerUtil;
+import dev.qrowned.punish.common.util.LicenseCheckerUtil;
 import dev.qrowned.punish.bungee.PunishBungeePlugin;
 import dev.qrowned.punish.common.config.impl.LicenseConfig;
 import dev.qrowned.punish.common.logger.JavaPluginLogger;
+import lombok.Getter;
 import lombok.SneakyThrows;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +20,7 @@ import java.time.Instant;
 
 public final class PunishBungeeBootstrap implements PunishBootstrap, LoaderBootstrap {
 
+    @Getter
     private final Plugin loader;
     private final PunishBungeePlugin plugin;
 
@@ -78,6 +81,10 @@ public final class PunishBungeeBootstrap implements PunishBootstrap, LoaderBoots
     @Override
     public Platform.Type getType() {
         return Platform.Type.BUNGEECORD;
+    }
+
+    public @NotNull ProxyServer getProxy() {
+        return this.loader.getProxy();
     }
 
 }
