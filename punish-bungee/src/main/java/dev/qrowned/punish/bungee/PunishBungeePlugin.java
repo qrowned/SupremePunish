@@ -14,7 +14,7 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
     private final PunishBungeeBootstrap bootstrap;
 
     @Override
-    protected void registerListener() {
+    protected void registerPlatformListener() {
         PluginManager pluginManager = this.bootstrap.getProxy().getPluginManager();
         pluginManager.registerListener(this.bootstrap.getLoader(), new BungeeConnectionListener(this));
     }
