@@ -1,6 +1,8 @@
 package dev.qrowned.punish.api;
 
+import dev.qrowned.punish.api.amqp.PubSubProvider;
 import dev.qrowned.punish.api.config.ConfigProvider;
+import dev.qrowned.punish.api.event.EventHandler;
 import dev.qrowned.punish.api.user.PunishUserHandler;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,5 +15,9 @@ public interface PunishApi {
     @NotNull ConfigProvider getConfigProvider();
 
     @NotNull PunishUserHandler getUserHandler();
+
+    @NotNull EventHandler getEventHandler();
+
+    @NotNull PubSubProvider getPubSubProvider();
 
 }
