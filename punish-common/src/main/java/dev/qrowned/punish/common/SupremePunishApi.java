@@ -5,6 +5,7 @@ import dev.qrowned.punish.api.PunishPlugin;
 import dev.qrowned.punish.api.amqp.PubSubProvider;
 import dev.qrowned.punish.api.config.ConfigProvider;
 import dev.qrowned.punish.api.event.EventHandler;
+import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.PunishUserHandler;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ public class SupremePunishApi implements PunishApi {
     private final PunishUserHandler userHandler;
     private final EventHandler eventHandler;
     private final PubSubProvider pubSubProvider;
+    private final PunishmentHandler punishmentHandler;
 
     public SupremePunishApi(@NotNull PunishPlugin plugin) {
         this.plugin = plugin;
@@ -25,6 +27,7 @@ public class SupremePunishApi implements PunishApi {
         this.userHandler = plugin.getUserHandler();
         this.eventHandler = plugin.getEventHandler();
         this.pubSubProvider = plugin.getPubSubProvider();
+        this.punishmentHandler = plugin.getPunishmentHandler();
     }
 
     @Override

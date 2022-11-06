@@ -1,4 +1,4 @@
-package dev.qrowned.punish.common.util;
+package dev.qrowned.punish.common.event.listener;
 
 import dev.qrowned.punish.api.PunishPlugin;
 import dev.qrowned.punish.api.event.impl.NetworkPlayerJoinEvent;

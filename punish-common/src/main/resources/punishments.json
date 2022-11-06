@@ -1,0 +1,35 @@
+{
+  "punishmentReasons": [
+    {
+      "id": "hacking",
+      "displayName": "Hacking",
+      "duration": 30,
+      "durationTimeUnit": "DAYS",
+      "type": "BAN",
+      "aliases": [
+        "hacks",
+        "cheats"
+      ]
+    },
+    {
+      "id": "insult",
+      "displayName": "Insult",
+      "duration": 3,
+      "durationTimeUnit": "HOURS",
+      "type": "MUTE",
+      "aliases": [
+        "rude"
+      ]
+    },
+    {
+      "id": "bug",
+      "displayName": "Bugusing",
+      "duration": 0,
+      "durationTimeUnit": "DAYS",
+      "type": "KICK",
+      "aliases":[
+        "bugging"
+      ]
+    }
+  ]
+}

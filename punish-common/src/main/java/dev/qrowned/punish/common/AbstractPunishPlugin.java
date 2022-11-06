@@ -8,9 +8,13 @@ import dev.qrowned.punish.common.amqp.CommonPubSubProvider;
 import dev.qrowned.punish.common.config.CommonConfigProvider;
 import dev.qrowned.punish.common.config.impl.LicenseConfig;
 import dev.qrowned.punish.common.config.impl.MySqlConfig;
+import dev.qrowned.punish.common.config.impl.PunishmentsConfig;
 import dev.qrowned.punish.common.config.impl.RabbitMqConfig;
 import dev.qrowned.punish.common.datasource.JsonConfigDataSource;
 import dev.qrowned.punish.common.event.CommonEventHandler;
+import dev.qrowned.punish.common.event.listener.AbstractPunishListener;
+import dev.qrowned.punish.common.punish.CommonPunishmentHandler;
+import dev.qrowned.punish.common.punish.PunishmentDataHandler;
 import dev.qrowned.punish.common.user.CommonPunishUserHandler;
 import dev.qrowned.punish.common.user.PunishUserDataHandler;
 import dev.qrowned.punish.common.util.DataTableCreationUtil;
@@ -21,21 +25,26 @@ import java.io.File;
 @Getter
 public abstract class AbstractPunishPlugin implements PunishPlugin {
 
-    private static final String PUNISH_FOLDER_PATH = "./plugins/SupremePunish/";
+    protected static final String PUNISH_FOLDER_PATH = "./plugins/SupremePunish/";
 
-    private JsonConfigDataSource dataSource;
-    private CommonPubSubProvider pubSubProvider;
-    private CommonEventHandler eventHandler;
-    private SupremePunishApi supremePunishApi;
-    private CommonPunishUserHandler userHandler;
+    protected JsonConfigDataSource dataSource;
+    protected CommonPubSubProvider pubSubProvider;
+    protected CommonEventHandler eventHandler;
+    protected SupremePunishApi supremePunishApi;
+    protected CommonPunishUserHandler userHandler;
+    protected CommonPunishmentHandler punishmentHandler;
 
-    private final ConfigProvider configProvider = new CommonConfigProvider();
+    protected PunishUserDataHandler punishUserDataHandler;
+    protected PunishmentDataHandler punishmentDataHandler;
+
+    protected final ConfigProvider configProvider = new CommonConfigProvider();
 
     public void load() {
         // register configs
         this.configProvider.registerConfig("license", new File(PUNISH_FOLDER_PATH + "license.json"), LicenseConfig.class);
         this.configProvider.registerConfig("mysql", new File(PUNISH_FOLDER_PATH + "mysql.json"), MySqlConfig.class);
         this.configProvider.registerConfig("rabbitMq", new File(PUNISH_FOLDER_PATH + "rabbitMq.json"), RabbitMqConfig.class);
+        this.configProvider.registerConfig("punishments", new File(PUNISH_FOLDER_PATH + "punishments.json"), PunishmentsConfig.class);
     }
 
     public void enable() {
@@ -51,8 +60,17 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
         this.pubSubProvider = new CommonPubSubProvider(this.configProvider.getConfig("rabbitMq", RabbitMqConfig.class), this.getLogger());
 
         // initialize handler
-        this.userHandler = new CommonPunishUserHandler(new PunishUserDataHandler(this.dataSource));
+        this.punishUserDataHandler = new PunishUserDataHandler(this.dataSource);
+        this.userHandler = new CommonPunishUserHandler(this.punishUserDataHandler);
+
         this.eventHandler = new CommonEventHandler(this.getLogger(), this.pubSubProvider);
+
+        this.punishUserDataHandler = new PunishUserDataHandler(this.dataSource);
+        this.punishmentHandler = new CommonPunishmentHandler(
+                this.eventHandler,
+                this.configProvider.getConfig("punishments", PunishmentsConfig.class),
+                new PunishmentDataHandler(this.dataSource)
+        );
 
         this.registerPubSubListener();
         this.registerPluginListener();
@@ -75,7 +93,6 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
     }
 
     public void registerPluginListener() {
-
     }
 
 }

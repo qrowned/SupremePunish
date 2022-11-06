@@ -1,7 +1,7 @@
 package dev.qrowned.punish.bungee.listener;
 
 import dev.qrowned.punish.bungee.PunishBungeePlugin;
-import dev.qrowned.punish.common.util.AbstractConnectionListener;
+import dev.qrowned.punish.common.event.listener.AbstractConnectionListener;
 import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.LoginEvent;

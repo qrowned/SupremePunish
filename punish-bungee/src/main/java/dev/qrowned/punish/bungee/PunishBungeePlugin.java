@@ -2,6 +2,7 @@ package dev.qrowned.punish.bungee;
 
 import dev.qrowned.punish.bungee.bootstrap.PunishBungeeBootstrap;
 import dev.qrowned.punish.bungee.listener.BungeeConnectionListener;
+import dev.qrowned.punish.bungee.listener.punish.BungeePunishListener;
 import dev.qrowned.punish.common.AbstractPunishPlugin;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,12 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
     @Override
     protected void registerCommands() {
 
+    }
+
+    @Override
+    public void registerPluginListener() {
+        super.registerPluginListener();
+
+        super.eventHandler.registerEventAdapter(new BungeePunishListener(super.getLogger(), super.punishmentDataHandler));
     }
 }

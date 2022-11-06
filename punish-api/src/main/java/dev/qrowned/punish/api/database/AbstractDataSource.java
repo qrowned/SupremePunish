@@ -2,6 +2,7 @@ package dev.qrowned.punish.api.database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+@Getter
 public abstract class AbstractDataSource {
 
     private final HikariDataSource dataSource;
@@ -36,6 +38,7 @@ public abstract class AbstractDataSource {
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        config.addDataSourceProperty("allowMultiQueries", "true");
         this.dataSource = new HikariDataSource(config);
     }
 
