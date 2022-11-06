@@ -57,7 +57,7 @@ public final class CommonChannelHandler implements ChannelHandler {
     @Override
     public void subscribe() throws IOException {
         if (this.listenerSubscribed) return;
-        String queueName = channel.queueDeclare().getQueue();
+        String queueName = this.channel.queueDeclare().getQueue();
         this.channel.queueBind(queueName, channelName, "");
         this.channel.basicConsume(queueName, true, this.consumer);
         this.listenerSubscribed = true;

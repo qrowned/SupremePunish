@@ -1,6 +1,8 @@
 package dev.qrowned.punish.common.util;
 
 import dev.qrowned.punish.api.PunishPlugin;
+import dev.qrowned.punish.api.event.impl.NetworkPlayerJoinEvent;
+import dev.qrowned.punish.api.event.impl.NetworkPlayerQuitEvent;
 import dev.qrowned.punish.api.logger.PluginLogger;
 import dev.qrowned.punish.api.user.PunishUser;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,14 @@ import java.util.concurrent.CompletableFuture;
 public abstract class AbstractConnectionListener {
 
     protected final PunishPlugin plugin;
+
+    public void processJoin(@NotNull UUID uuid, @NotNull String name) {
+        this.plugin.getEventHandler().call(new NetworkPlayerJoinEvent(uuid, name, System.currentTimeMillis()));
+    }
+
+    public void processQuit(@NotNull UUID uuid, @NotNull String name) {
+        this.plugin.getEventHandler().call(new NetworkPlayerQuitEvent(uuid, name, System.currentTimeMillis()));
+    }
 
     public CompletableFuture<PunishUser> loadUser(@NotNull UUID uuid, @NotNull String name) {
         PluginLogger logger = this.plugin.getLogger();
