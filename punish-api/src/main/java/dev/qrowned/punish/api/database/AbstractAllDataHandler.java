@@ -14,14 +14,14 @@ public abstract class AbstractAllDataHandler<K, V> {
     protected final AsyncLoadingCache<K, List<V>> asyncLoadingCache;
 
     protected AbstractAllDataHandler(@NotNull AbstractDataSource abstractDataSource,
-                                  @NotNull AsyncCacheLoader<K, List<V>> asyncCacheLoader) {
+                                     @NotNull AsyncCacheLoader<K, List<V>> asyncCacheLoader) {
         this.abstractDataSource = abstractDataSource;
         this.asyncLoadingCache = Caffeine.newBuilder()
                 .buildAsync(asyncCacheLoader);
     }
 
     protected AbstractAllDataHandler(@NotNull AbstractDataSource abstractDataSource,
-                                  @NotNull AsyncLoadingCache<K, List<V>> asyncLoadingCache) {
+                                     @NotNull AsyncLoadingCache<K, List<V>> asyncLoadingCache) {
         this.abstractDataSource = abstractDataSource;
         this.asyncLoadingCache = asyncLoadingCache;
     }

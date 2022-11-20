@@ -2,6 +2,7 @@ package dev.qrowned.punish.api;
 
 import dev.qrowned.punish.api.amqp.PubSubProvider;
 import dev.qrowned.punish.api.bootstrap.PunishBootstrap;
+import dev.qrowned.punish.api.command.CommandHandler;
 import dev.qrowned.punish.api.config.ConfigProvider;
 import dev.qrowned.punish.api.database.AbstractDataSource;
 import dev.qrowned.punish.api.event.EventHandler;
@@ -27,5 +28,7 @@ public interface PunishPlugin {
     @NotNull PubSubProvider getPubSubProvider();
 
     @NotNull PunishmentHandler getPunishmentHandler();
+
+    @NotNull CommandHandler<?> getCommandHandler();
 
 }

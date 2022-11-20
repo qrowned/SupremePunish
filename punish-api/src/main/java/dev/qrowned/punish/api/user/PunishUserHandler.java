@@ -8,16 +8,16 @@ import java.util.concurrent.CompletableFuture;
 
 public interface PunishUserHandler {
 
-    @Nullable PunishUser getUser(@NotNull UUID uuid);
+    @Nullable AbstractPunishUser getUser(@NotNull UUID uuid);
 
-    @Nullable PunishUser getUser(@NotNull String name);
+    @Nullable AbstractPunishUser getUser(@NotNull String name);
 
-    @NotNull CompletableFuture<@Nullable PunishUser> fetchUser(@NotNull UUID uuid);
+    @NotNull CompletableFuture<@Nullable AbstractPunishUser> fetchUser(@NotNull UUID uuid);
 
-    @NotNull CompletableFuture<@Nullable PunishUser> fetchUser(@NotNull String name);
+    @NotNull CompletableFuture<@Nullable AbstractPunishUser> fetchUser(@NotNull String name);
 
     void updateName(@NotNull UUID uuid, @NotNull String name);
 
-    @NotNull PunishUser createUser(@NotNull UUID uuid, @NotNull String name);
+    @NotNull AbstractPunishUser createUser(@NotNull UUID uuid, @NotNull String name);
 
 }

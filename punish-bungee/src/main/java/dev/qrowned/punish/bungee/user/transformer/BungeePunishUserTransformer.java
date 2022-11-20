@@ -1,19 +1,20 @@
-package dev.qrowned.punish.common.user.transformer;
+package dev.qrowned.punish.bungee.user.transformer;
 
 import dev.qrowned.punish.api.database.DataTransformer;
-import dev.qrowned.punish.api.user.PunishUser;
+import dev.qrowned.punish.api.user.AbstractPunishUser;
+import dev.qrowned.punish.bungee.user.BungeePunishUser;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.ResultSet;
 import java.util.UUID;
 
-public final class PunishUserTransformer implements DataTransformer<PunishUser> {
+public final class BungeePunishUserTransformer implements DataTransformer<AbstractPunishUser> {
 
-    @Override
     @SneakyThrows
-    public PunishUser transform(@NotNull ResultSet resultSet) {
-        return new PunishUser(
+    @Override
+    public BungeePunishUser transform(@NotNull ResultSet resultSet) {
+        return new BungeePunishUser(
                 UUID.fromString(resultSet.getString("uuid")),
                 resultSet.getString("name"),
                 resultSet.getTimestamp("createdAt").toInstant()

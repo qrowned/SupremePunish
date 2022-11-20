@@ -19,7 +19,7 @@ public final class DataTableCreationUtil {
             "    constraint punish_user_uuid_uindex " +
             "        unique (uuid) " +
             "); ";
-    private static final String PUNISHMENTS_TABLE = "create table supreme_punish.punishments " +
+    private static final String PUNISHMENTS_TABLE = "create table if not exists punishments " +
             "( " +
             "    id                  int auto_increment " +
             "        primary key, " +

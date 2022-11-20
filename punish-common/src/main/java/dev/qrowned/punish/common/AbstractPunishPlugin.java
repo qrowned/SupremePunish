@@ -12,10 +12,9 @@ import dev.qrowned.punish.common.config.impl.PunishmentsConfig;
 import dev.qrowned.punish.common.config.impl.RabbitMqConfig;
 import dev.qrowned.punish.common.datasource.JsonConfigDataSource;
 import dev.qrowned.punish.common.event.CommonEventHandler;
-import dev.qrowned.punish.common.event.listener.AbstractPunishListener;
 import dev.qrowned.punish.common.punish.CommonPunishmentHandler;
 import dev.qrowned.punish.common.punish.PunishmentDataHandler;
-import dev.qrowned.punish.common.user.CommonPunishUserHandler;
+import dev.qrowned.punish.common.user.AbstractPunishUserHandler;
 import dev.qrowned.punish.common.user.PunishUserDataHandler;
 import dev.qrowned.punish.common.util.DataTableCreationUtil;
 import lombok.Getter;
@@ -31,7 +30,7 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
     protected CommonPubSubProvider pubSubProvider;
     protected CommonEventHandler eventHandler;
     protected SupremePunishApi supremePunishApi;
-    protected CommonPunishUserHandler userHandler;
+    protected AbstractPunishUserHandler userHandler;
     protected CommonPunishmentHandler punishmentHandler;
 
     protected PunishUserDataHandler punishUserDataHandler;
@@ -59,18 +58,7 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
         // initialize amqp and register listener
         this.pubSubProvider = new CommonPubSubProvider(this.configProvider.getConfig("rabbitMq", RabbitMqConfig.class), this.getLogger());
 
-        // initialize handler
-        this.punishUserDataHandler = new PunishUserDataHandler(this.dataSource);
-        this.userHandler = new CommonPunishUserHandler(this.punishUserDataHandler);
-
-        this.eventHandler = new CommonEventHandler(this.getLogger(), this.pubSubProvider);
-
-        this.punishUserDataHandler = new PunishUserDataHandler(this.dataSource);
-        this.punishmentHandler = new CommonPunishmentHandler(
-                this.eventHandler,
-                this.configProvider.getConfig("punishments", PunishmentsConfig.class),
-                new PunishmentDataHandler(this.dataSource)
-        );
+        this.registerHandler();
 
         this.registerPubSubListener();
         this.registerPluginListener();
@@ -93,6 +81,18 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
     }
 
     public void registerPluginListener() {
+    }
+
+    public void registerHandler() {
+        this.eventHandler = new CommonEventHandler(this.getLogger(), this.pubSubProvider);
+
+        this.punishmentDataHandler = new PunishmentDataHandler(this.dataSource);
+        this.punishmentHandler = new CommonPunishmentHandler(
+                this.eventHandler,
+                this.configProvider.getConfig("punishments", PunishmentsConfig.class),
+                this.userHandler,
+                this.punishmentDataHandler
+        );
     }
 
 }

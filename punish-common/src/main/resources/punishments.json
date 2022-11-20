@@ -27,7 +27,7 @@
       "duration": 0,
       "durationTimeUnit": "DAYS",
       "type": "KICK",
-      "aliases":[
+      "aliases": [
         "bugging"
       ]
     }

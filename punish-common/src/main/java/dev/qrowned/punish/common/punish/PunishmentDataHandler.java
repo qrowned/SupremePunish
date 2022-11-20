@@ -27,7 +27,7 @@ public final class PunishmentDataHandler extends AbstractAllDataHandler<UUID, Pu
 
     public PunishmentDataHandler(@NotNull AbstractDataSource abstractDataSource) {
         super(abstractDataSource, Caffeine.newBuilder()
-                .expireAfterAccess(5, TimeUnit.MINUTES)
+                .expireAfterAccess(2, TimeUnit.MINUTES)
                 .buildAsync((uuid, executor) -> {
                     PreparedStatement preparedStatement = abstractDataSource.prepare(FETCH_STATEMENT);
                     preparedStatement.setString(1, uuid.toString());

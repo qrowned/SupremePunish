@@ -3,13 +3,15 @@ package dev.qrowned.punish.common;
 import dev.qrowned.punish.api.PunishApi;
 import dev.qrowned.punish.api.PunishPlugin;
 import dev.qrowned.punish.api.amqp.PubSubProvider;
+import dev.qrowned.punish.api.command.CommandHandler;
 import dev.qrowned.punish.api.config.ConfigProvider;
 import dev.qrowned.punish.api.event.EventHandler;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.PunishUserHandler;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 @Getter
 public class SupremePunishApi implements PunishApi {
@@ -20,6 +22,7 @@ public class SupremePunishApi implements PunishApi {
     private final EventHandler eventHandler;
     private final PubSubProvider pubSubProvider;
     private final PunishmentHandler punishmentHandler;
+    private final CommandHandler<?> commandHandler;
 
     public SupremePunishApi(@NotNull PunishPlugin plugin) {
         this.plugin = plugin;
@@ -28,11 +31,12 @@ public class SupremePunishApi implements PunishApi {
         this.eventHandler = plugin.getEventHandler();
         this.pubSubProvider = plugin.getPubSubProvider();
         this.punishmentHandler = plugin.getPunishmentHandler();
+        this.commandHandler = plugin.getCommandHandler();
     }
 
     @Override
     public @NotNull String getServerName() {
-        return this.plugin.getBootstrap().getServerName();
+        return Objects.requireNonNull(this.plugin.getBootstrap().getServerName());
     }
 
     @Override

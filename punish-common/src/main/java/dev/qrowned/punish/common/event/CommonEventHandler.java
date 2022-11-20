@@ -44,7 +44,13 @@ public final class CommonEventHandler implements EventHandler, PubSubListener {
         Class<?> eventClass = Class.forName(className);
         AbstractPunishEvent abstractPunishEvent = (AbstractPunishEvent) GSON.fromJson(s, eventClass);
 
-        this.getEventAdapters(eventClass).forEach(eventAdapter -> eventAdapter.handleReceive(abstractPunishEvent));
+        this.getEventAdapters(eventClass).forEach(eventAdapter -> {
+            try {
+                eventAdapter.handleReceive(abstractPunishEvent);
+            } catch (Throwable throwable) {
+                this.pluginLogger.warn("Received error while " + abstractPunishEvent.getClass().getSimpleName() + "#handleReceive", throwable);
+            }
+        });
     }
 
     @Override

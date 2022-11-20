@@ -9,17 +9,19 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class PunishUser {
+public abstract class AbstractPunishUser {
 
-    private final UUID uuid;
-    private String name;
+    protected final UUID uuid;
+    protected String name;
 
-    private final Instant createdAt;
+    protected final Instant createdAt;
 
-    public PunishUser(@NotNull UUID uuid, @NotNull String name) {
+    public AbstractPunishUser(@NotNull UUID uuid, @NotNull String name) {
         this.uuid = uuid;
         this.name = name;
         this.createdAt = Instant.now();
     }
+
+    public abstract boolean hasPermission(@NotNull String permission);
 
 }

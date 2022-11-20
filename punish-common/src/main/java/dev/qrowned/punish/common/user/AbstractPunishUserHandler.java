@@ -1,6 +1,6 @@
 package dev.qrowned.punish.common.user;
 
-import dev.qrowned.punish.api.user.PunishUser;
+import dev.qrowned.punish.api.user.AbstractPunishUser;
 import dev.qrowned.punish.api.user.PunishUserHandler;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -10,27 +10,27 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 @RequiredArgsConstructor
-public final class CommonPunishUserHandler implements PunishUserHandler {
+public abstract class AbstractPunishUserHandler implements PunishUserHandler {
 
-    private final PunishUserDataHandler punishUserDataHandler;
+    protected final PunishUserDataHandler punishUserDataHandler;
 
     @Override
-    public @Nullable PunishUser getUser(@NotNull UUID uuid) {
+    public @Nullable AbstractPunishUser getUser(@NotNull UUID uuid) {
         return this.punishUserDataHandler.getData(uuid).join();
     }
 
     @Override
-    public @Nullable PunishUser getUser(@NotNull String name) {
+    public @Nullable AbstractPunishUser getUser(@NotNull String name) {
         return this.punishUserDataHandler.getData(name).join();
     }
 
     @Override
-    public @NotNull CompletableFuture<@Nullable PunishUser> fetchUser(@NotNull UUID uuid) {
+    public @NotNull CompletableFuture<@Nullable AbstractPunishUser> fetchUser(@NotNull UUID uuid) {
         return this.punishUserDataHandler.getData(uuid);
     }
 
     @Override
-    public @NotNull CompletableFuture<@Nullable PunishUser> fetchUser(@NotNull String name) {
+    public @NotNull CompletableFuture<@Nullable AbstractPunishUser> fetchUser(@NotNull String name) {
         return this.punishUserDataHandler.getData(name);
     }
 
@@ -42,13 +42,6 @@ public final class CommonPunishUserHandler implements PunishUserHandler {
             punishUser.setName(name);
             this.punishUserDataHandler.updateData(uuid, punishUser);
         });
-    }
-
-    @Override
-    public @NotNull PunishUser createUser(@NotNull UUID uuid, @NotNull String name) {
-        PunishUser punishUser = new PunishUser(uuid, name);
-        this.punishUserDataHandler.insertData(uuid, punishUser);
-        return punishUser;
     }
 
 }

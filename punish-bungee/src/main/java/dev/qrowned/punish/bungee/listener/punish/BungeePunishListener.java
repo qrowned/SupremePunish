@@ -1,21 +1,34 @@
 package dev.qrowned.punish.bungee.listener.punish;
 
+import dev.qrowned.punish.api.event.EventListener;
 import dev.qrowned.punish.api.event.impl.PlayerPunishEvent;
-import dev.qrowned.punish.api.logger.PluginLogger;
 import dev.qrowned.punish.common.event.listener.AbstractPunishListener;
 import dev.qrowned.punish.common.punish.PunishmentDataHandler;
+import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
+
+@EventListener(clazz = PlayerPunishEvent.class)
 public class BungeePunishListener extends AbstractPunishListener {
 
-    public BungeePunishListener(PluginLogger pluginLogger, PunishmentDataHandler punishmentDataHandler) {
-        super(pluginLogger, punishmentDataHandler);
+    public BungeePunishListener(@NotNull PunishmentDataHandler punishmentDataHandler) {
+        super(punishmentDataHandler);
     }
 
     @Override
-    public void handleReceive(@NotNull PlayerPunishEvent event) {
-        super.handleReceive(event);
+    protected void disconnect(@NotNull UUID uuid, @NotNull String reason) {
+        ProxiedPlayer player = ProxyServer.getInstance().getPlayer(uuid);
+        if (player == null) return;
+        player.disconnect(TextComponent.fromLegacyText(reason));
+    }
 
-        // TODO: 06.11.2022 Implement ban screen
+    @Override
+    protected void broadcastMessage(@NotNull String message, @NotNull String permission) {
+        ProxyServer.getInstance().getPlayers().stream()
+                .filter(proxiedPlayer -> proxiedPlayer.hasPermission(permission))
+                .forEach(proxiedPlayer -> proxiedPlayer.sendMessage(TextComponent.fromLegacyText(message)));
     }
 }

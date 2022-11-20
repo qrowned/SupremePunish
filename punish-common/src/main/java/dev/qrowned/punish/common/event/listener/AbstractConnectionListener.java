@@ -4,7 +4,7 @@ import dev.qrowned.punish.api.PunishPlugin;
 import dev.qrowned.punish.api.event.impl.NetworkPlayerJoinEvent;
 import dev.qrowned.punish.api.event.impl.NetworkPlayerQuitEvent;
 import dev.qrowned.punish.api.logger.PluginLogger;
-import dev.qrowned.punish.api.user.PunishUser;
+import dev.qrowned.punish.api.user.AbstractPunishUser;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,12 +24,12 @@ public abstract class AbstractConnectionListener {
         this.plugin.getEventHandler().call(new NetworkPlayerQuitEvent(uuid, name, System.currentTimeMillis()));
     }
 
-    public CompletableFuture<PunishUser> loadUser(@NotNull UUID uuid, @NotNull String name) {
+    public CompletableFuture<AbstractPunishUser> loadUser(@NotNull UUID uuid, @NotNull String name) {
         PluginLogger logger = this.plugin.getLogger();
 
         return this.plugin.getUserHandler().fetchUser(uuid).thenApplyAsync(punishUser -> {
             if (punishUser == null) {
-                PunishUser createdUser = this.plugin.getUserHandler().createUser(uuid, name);
+                AbstractPunishUser createdUser = this.plugin.getUserHandler().createUser(uuid, name);
                 logger.info("Created new user for UUID " + uuid + " with the name " + name + ".");
                 return createdUser;
             }

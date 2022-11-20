@@ -2,7 +2,6 @@ package dev.qrowned.punish.common.config.impl;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 @NoArgsConstructor
