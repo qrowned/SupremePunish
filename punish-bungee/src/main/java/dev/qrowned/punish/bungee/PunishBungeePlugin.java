@@ -3,6 +3,7 @@ package dev.qrowned.punish.bungee;
 import dev.qrowned.punish.bungee.bootstrap.PunishBungeeBootstrap;
 import dev.qrowned.punish.bungee.command.BungeeCommandHandler;
 import dev.qrowned.punish.bungee.command.impl.BanCommand;
+import dev.qrowned.punish.bungee.command.impl.ReloadCommand;
 import dev.qrowned.punish.bungee.command.impl.TestCommand;
 import dev.qrowned.punish.bungee.listener.BungeeConnectionListener;
 import dev.qrowned.punish.bungee.listener.punish.BungeePunishListener;
@@ -39,7 +40,10 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
     @Override
     protected void registerCommands() {
         this.commandHandler = new BungeeCommandHandler(this.bootstrap.getLoader());
-        this.commandHandler.registerCommands(new TestCommand(), new BanCommand(super.userHandler, super.punishmentHandler));
+        this.commandHandler.registerCommands(
+                new TestCommand(), new BanCommand(super.userHandler, super.punishmentHandler),
+                new ReloadCommand(super.configProvider, super.punishUserDataHandler, super.punishmentDataHandler)
+        );
     }
 
     @Override

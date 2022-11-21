@@ -14,7 +14,7 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 
 @Getter
-public final class JsonConfig<T> {
+public final class JsonConfig<T extends ConfigAdapter<T>> {
 
     @Setter
     private static Gson GSON = new Gson();
@@ -55,7 +55,10 @@ public final class JsonConfig<T> {
         }
 
         final String json = new String(Files.readAllBytes(this.file.toPath()));
-        this.config = GSON.fromJson(json, this.clazz);
+        T fromJson = GSON.fromJson(json, this.clazz);
+
+        if (this.config == null) this.config = fromJson;
+        else this.config.reload(fromJson);
     }
 
     public void save() throws IOException {

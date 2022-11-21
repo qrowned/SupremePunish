@@ -33,6 +33,10 @@ public abstract class AbstractDataHandler<K, V> {
         this.asyncLoadingCache.synchronous().invalidate(k);
     }
 
+    public void invalidateAll() {
+        this.asyncLoadingCache.synchronous().invalidateAll();
+    }
+
     public abstract void updateData(@NotNull K k, @NotNull V v);
 
     protected void insertData(@NotNull K k, @NotNull V v) {

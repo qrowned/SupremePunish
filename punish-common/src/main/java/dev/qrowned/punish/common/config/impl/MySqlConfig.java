@@ -1,11 +1,13 @@
 package dev.qrowned.punish.common.config.impl;
 
+import dev.qrowned.punish.api.config.ConfigAdapter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 @NoArgsConstructor
-public final class MySqlConfig {
+public final class MySqlConfig implements ConfigAdapter<MySqlConfig> {
 
     private String hostname;
     private int port;
@@ -15,5 +17,16 @@ public final class MySqlConfig {
 
     private int minIdle;
     private int maxPoolSize;
+
+    @Override
+    public void reload(@NotNull MySqlConfig config) {
+        this.hostname = config.getHostname();
+        this.port = config.getPort();
+        this.database = config.getDatabase();
+        this.username = config.getUsername();
+        this.password = config.getPassword();
+        this.minIdle = config.getMinIdle();
+        this.maxPoolSize = config.getMaxPoolSize();
+    }
 
 }
