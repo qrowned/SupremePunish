@@ -47,10 +47,6 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
     }
 
     public void enable() {
-        // register with punish api
-        this.supremePunishApi = new SupremePunishApi(this);
-        PunishApiProvider.register(this.supremePunishApi);
-
         // initialize datasource and create tables
         this.dataSource = new JsonConfigDataSource(this.configProvider.getConfig("mysql", MySqlConfig.class));
         DataTableCreationUtil.createTables(this.dataSource);
@@ -59,6 +55,10 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
         this.pubSubProvider = new CommonPubSubProvider(this.configProvider.getConfig("rabbitMq", RabbitMqConfig.class), this.getLogger());
 
         this.registerHandler();
+
+        // register with punish api
+        this.supremePunishApi = new SupremePunishApi(this);
+        PunishApiProvider.register(this.supremePunishApi);
 
         this.registerPubSubListener();
         this.registerPluginListener();

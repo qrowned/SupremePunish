@@ -1,6 +1,7 @@
 package dev.qrowned.punish.common.command;
 
 import dev.qrowned.punish.api.command.AbstractPunishCommand;
+import dev.qrowned.punish.api.message.MessageHandler;
 import dev.qrowned.punish.api.punish.Punishment;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.PunishUserHandler;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public abstract class AbstractBanCommand<P> extends AbstractPunishCommand<P> {
 
+    private final MessageHandler<P> messageHandler;
     private final PunishUserHandler punishUserHandler;
     private final PunishmentHandler punishmentHandler;
 
@@ -26,40 +28,28 @@ public abstract class AbstractBanCommand<P> extends AbstractPunishCommand<P> {
 
         this.punishUserHandler.fetchUser(args[0]).thenAcceptAsync(target -> {
             if (target == null) {
-                // TODO: 18.11.2022 Implement user not existing
+                this.messageHandler.getMessage("punish.user.notExisting").send(sender);
                 return;
             }
 
             if (args.length == 2) {
                 this.punishmentHandler.punish(target.getUuid(), executor, args[1]).thenAcceptAsync(result -> {
                     if (!result.isSuccess()) {
-                        if (result.getMessage().equals("punish.existing")) {
-                            // TODO: 20.11.2022 Implement already banned
-                        } else if (result.getMessage().equals("punish.reason.notFound")) {
-                            // TODO: 20.11.2022 Implement reason not found
-                        } else if (result.getMessage().equals("punish.reason.noPermission")) {
-                            // TODO: 20.11.2022 Implement no permission
-                        } else {
-                            // TODO: 20.11.2022 Implement internal error
-                        }
+                        this.messageHandler.getMessage(result.getMessage()).send(sender);
                     }
                 });
                 return;
             } else if (args.length > 2 && this.hasPermission(sender, "supremepunish.ban.custom")) {
                 long duration = this.parseTimeResult(args[1]);
                 if (duration == 0) {
-                    // TODO: 20.11.2022 Implement wrong time format
+                    this.messageHandler.getMessage("punish.time.wrongFormat").send(sender);
                     return;
                 }
 
                 String reason = String.join(" ", ArrayUtils.subarray(args, 2, args.length));
                 this.punishmentHandler.ban(target.getUuid(), executor, reason, duration).thenAcceptAsync(result -> {
                     if (!result.isSuccess()) {
-                        if (result.getMessage().equalsIgnoreCase("punish.existing")) {
-                            // TODO: 20.11.2022 Implement already banned
-                        } else {
-                            // TODO: 20.11.2022 Implement internal error
-                        }
+                        this.messageHandler.getMessage(result.getMessage()).send(sender);
                     }
                 });
                 return;

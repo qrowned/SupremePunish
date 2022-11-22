@@ -3,6 +3,7 @@ package dev.qrowned.punish.bungee.command.impl;
 import dev.qrowned.punish.api.command.annotation.Command;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.PunishUserHandler;
+import dev.qrowned.punish.bungee.message.BungeeMessageHandler;
 import dev.qrowned.punish.common.command.AbstractBanCommand;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -13,9 +14,10 @@ import java.util.UUID;
 @Command(name = "ban", aliases = "banhammer", permission = "supremepunish.ban")
 public final class BanCommand extends AbstractBanCommand<CommandSender> {
 
-    public BanCommand(@NotNull PunishUserHandler punishUserHandler,
+    public BanCommand(@NotNull BungeeMessageHandler bungeeMessageHandler,
+                      @NotNull PunishUserHandler punishUserHandler,
                       @NotNull PunishmentHandler punishmentHandler) {
-        super(punishUserHandler, punishmentHandler);
+        super(bungeeMessageHandler, punishUserHandler, punishmentHandler);
     }
 
     @Override

@@ -1,0 +1,47 @@
+{
+  "prefix": "§8[§cPUNISH§8]§7",
+  "messages": [
+    {
+      "id": "internalError",
+      "message": [
+        "%prefix% §cAn internal error occurred! Please report this immediately to the staff."
+      ]
+    },
+    {
+      "id": "punish.user.notExisting",
+      "message": [
+        "%prefix% §cThis user does not exist!"
+      ]
+    },
+    {
+      "id": "punish.existing",
+      "message": [
+        "%prefix% §cThis user is already punished for this type of reason."
+      ]
+    },
+    {
+      "id": "punish.reason.notFound",
+      "message": [
+        "%prefix% §cPlease provide a valid reason."
+      ]
+    },
+    {
+      "id": "punish.reason.noPermission",
+      "message": [
+        "%prefix% §cYou don't have the permission for this reason!"
+      ]
+    },
+    {
+      "id": "punish.time.wrongFormat",
+      "message": [
+        "%prefix% Please provide a valid time format (§6e.g. 30d, 10h, 5m§7)."
+      ]
+    },
+    {
+      "id": "reload.successful",
+      "message": [
+        "%prefix% Successfully reloaded the configs and cleared the cache."
+      ]
+    }
+  ]
+}
