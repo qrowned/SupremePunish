@@ -12,6 +12,7 @@ import dev.qrowned.punish.common.config.impl.PunishmentsConfig;
 import dev.qrowned.punish.common.config.impl.RabbitMqConfig;
 import dev.qrowned.punish.common.datasource.JsonConfigDataSource;
 import dev.qrowned.punish.common.event.CommonEventHandler;
+import dev.qrowned.punish.common.event.listener.NetworkPlayerQuitListener;
 import dev.qrowned.punish.common.punish.CommonPunishmentHandler;
 import dev.qrowned.punish.common.punish.PunishmentDataHandler;
 import dev.qrowned.punish.common.user.AbstractPunishUserHandler;
@@ -81,6 +82,7 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
     }
 
     public void registerPluginListener() {
+        this.eventHandler.registerEventAdapter(new NetworkPlayerQuitListener(this.punishUserDataHandler));
     }
 
     public void registerHandler() {
