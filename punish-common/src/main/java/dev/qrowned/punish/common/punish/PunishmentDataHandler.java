@@ -23,7 +23,7 @@ public final class PunishmentDataHandler extends AbstractAllDataHandler<UUID, Pu
 
     private static final String FETCH_STATEMENT = "select * from punishments where target = ?;";
     private static final String INSERT_STATEMENT = "insert into punishments(type, target, executor, reason, duration) values(?, ?, ?, ?, ?);";
-    private static final String UPDATE_STATEMENT = "update punishments set executionTime = current_timestamp, pardonExecutor = ?, pardonReason = ? where id = ?;";
+    private static final String UPDATE_STATEMENT = "update punishments set pardonExecutionTime = current_timestamp, pardonExecutor = ?, pardonReason = ? where id = ?;";
 
     public PunishmentDataHandler(@NotNull AbstractDataSource abstractDataSource) {
         super(abstractDataSource, Caffeine.newBuilder()

@@ -5,7 +5,9 @@ import dev.qrowned.punish.bungee.command.BungeeCommandHandler;
 import dev.qrowned.punish.bungee.command.impl.BanCommand;
 import dev.qrowned.punish.bungee.command.impl.ReloadCommand;
 import dev.qrowned.punish.bungee.command.impl.TestCommand;
+import dev.qrowned.punish.bungee.command.impl.UnbanCommand;
 import dev.qrowned.punish.bungee.listener.BungeeConnectionListener;
+import dev.qrowned.punish.bungee.listener.punish.BungeePardonListener;
 import dev.qrowned.punish.bungee.listener.punish.BungeePunishListener;
 import dev.qrowned.punish.bungee.message.BungeeMessageConfig;
 import dev.qrowned.punish.bungee.message.BungeeMessageHandler;
@@ -55,7 +57,8 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
         this.commandHandler = new BungeeCommandHandler(this.bootstrap.getLoader());
         this.commandHandler.registerCommands(
                 new TestCommand(), new BanCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
-                new ReloadCommand(super.configProvider, this.messageHandler, super.punishUserDataHandler, super.punishmentDataHandler)
+                new ReloadCommand(super.configProvider, this.messageHandler, super.punishUserDataHandler, super.punishmentDataHandler),
+                new UnbanCommand(this.messageHandler, super.userHandler, super.punishmentHandler)
         );
     }
 
@@ -63,6 +66,9 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
     public void registerPluginListener() {
         super.registerPluginListener();
 
-        super.eventHandler.registerEventAdapter(new BungeePunishListener(super.punishmentDataHandler));
+        super.eventHandler.registerEventAdapter(
+                new BungeePunishListener(super.punishmentDataHandler),
+                new BungeePardonListener(super.punishmentDataHandler)
+        );
     }
 }

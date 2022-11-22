@@ -14,6 +14,11 @@ public abstract class AbstractPardonListener extends EventAdapter<PlayerPardonEv
     @Override
     public void handleReceive(@NotNull PlayerPardonEvent event) {
         this.punishmentDataHandler.invalidate(event.getTarget());
+
+        this.broadcastMessage("[PUNISH] " + event.getTarget() + " got pardon (" + event.getPunishment().getType() + ") by " + event.getExecutor() + " with the reason " + event.getPunishment().getPardonReason(),
+                "supremepunish.pardon.notify");
     }
+
+    protected abstract void broadcastMessage(@NotNull String message, @NotNull String permission);
 
 }

@@ -1,28 +1,18 @@
 package dev.qrowned.punish.bungee.listener.punish;
 
 import dev.qrowned.punish.api.event.EventListener;
-import dev.qrowned.punish.api.event.impl.PlayerPunishEvent;
-import dev.qrowned.punish.common.event.listener.AbstractPunishListener;
+import dev.qrowned.punish.api.event.impl.PlayerPardonEvent;
+import dev.qrowned.punish.common.event.listener.AbstractPardonListener;
 import dev.qrowned.punish.common.punish.PunishmentDataHandler;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.UUID;
+@EventListener(clazz = PlayerPardonEvent.class)
+public final class BungeePardonListener extends AbstractPardonListener {
 
-@EventListener(clazz = PlayerPunishEvent.class)
-public final class BungeePunishListener extends AbstractPunishListener {
-
-    public BungeePunishListener(@NotNull PunishmentDataHandler punishmentDataHandler) {
+    public BungeePardonListener(PunishmentDataHandler punishmentDataHandler) {
         super(punishmentDataHandler);
-    }
-
-    @Override
-    protected void disconnect(@NotNull UUID uuid, @NotNull String reason) {
-        ProxiedPlayer player = ProxyServer.getInstance().getPlayer(uuid);
-        if (player == null) return;
-        player.disconnect(TextComponent.fromLegacyText(reason));
     }
 
     @Override
@@ -31,4 +21,5 @@ public final class BungeePunishListener extends AbstractPunishListener {
                 .filter(proxiedPlayer -> proxiedPlayer.hasPermission(permission))
                 .forEach(proxiedPlayer -> proxiedPlayer.sendMessage(TextComponent.fromLegacyText(message)));
     }
+
 }

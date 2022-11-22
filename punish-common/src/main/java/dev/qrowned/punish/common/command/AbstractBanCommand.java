@@ -23,7 +23,10 @@ public abstract class AbstractBanCommand<P> extends AbstractPunishCommand<P> {
 
     @Override
     public void execute(P sender, String[] args) {
-        if (args.length == 0) return;
+        if (args.length == 0) {
+            this.handleNoSubCommandFound(sender, args);
+            return;
+        }
         UUID executor = this.getUUID(sender);
 
         this.punishUserHandler.fetchUser(args[0]).thenAcceptAsync(target -> {
@@ -54,7 +57,6 @@ public abstract class AbstractBanCommand<P> extends AbstractPunishCommand<P> {
                 });
                 return;
             }
-
             this.handleNoSubCommandFound(sender, args);
         });
     }

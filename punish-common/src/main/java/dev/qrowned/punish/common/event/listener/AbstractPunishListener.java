@@ -18,7 +18,7 @@ public abstract class AbstractPunishListener extends EventAdapter<PlayerPunishEv
         this.punishmentDataHandler.invalidate(event.getTarget());
 
         this.disconnect(event.getTarget(), "You got banned with the reason " + event.getPunishmentReason().getDisplayName());
-        this.broadcastMessage("[PUNISH] " + event.getTarget() + " got punished by " + event.getExecutor() + " with the reason " + event.getPunishmentReason().getDisplayName(),
+        this.broadcastMessage("[PUNISH] " + event.getTarget() + " got punished (" + event.getPunishment().getType() + ") by " + event.getExecutor() + " with the reason " + event.getPunishmentReason().getDisplayName(),
                 "supremepunish.punish.notify");
     }
 

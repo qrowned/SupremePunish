@@ -42,6 +42,18 @@
       "message": [
         "%prefix% Successfully reloaded the configs and cleared the cache."
       ]
+    },
+    {
+      "id": "punish.unban.successful",
+      "message": [
+        "%prefix% You've §asuccessfully §7unbanned §6%target%§7."
+      ]
+    },
+    {
+      "id": "punish.notExisting",
+      "message": [
+        "%prefix% §cThis player isn't punished for this type of reason."
+      ]
     }
   ]
 }
