@@ -58,6 +58,14 @@ public final class CommonEventHandler implements EventHandler, PubSubListener {
         this.pubSubProvider.publish(CHANNEL_NAME, buffer -> {
             buffer.writeString(event.getClass().getName())
                     .writeString(GSON.toJson(event));
+
+            this.getEventAdapters(event.getClass()).forEach(eventAdapter -> {
+                try {
+                    eventAdapter.handleSend(event);
+                } catch (Throwable throwable) {
+                    this.pluginLogger.warn("Received error while " + event.getClass().getSimpleName() + "#handleSend", throwable);
+                }
+            });
         });
     }
 
