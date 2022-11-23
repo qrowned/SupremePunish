@@ -78,6 +78,8 @@ public abstract class AbstractBanCommand<P> extends AbstractPunishCommand<P> {
 
     public long parseTimeResult(@NotNull String s) {
         try {
+            if (s.equalsIgnoreCase("perma")) return -1;
+
             String timeUnit = Character.toString(s.charAt(s.length() - 1));
             int timeValue = Integer.parseInt(s.substring(0, s.length() - 1));
 

@@ -9,10 +9,8 @@ import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.Instant;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -22,7 +20,7 @@ public final class PunishmentDataHandler extends AbstractAllDataHandler<UUID, Pu
     private static final PunishmentTransformer PUNISHMENT_TRANSFORMER = new PunishmentTransformer();
 
     private static final String FETCH_STATEMENT = "select * from punishments where target = ?;";
-    private static final String INSERT_STATEMENT = "insert into punishments(type, target, executor, reason, duration) values(?, ?, ?, ?, ?);";
+    private static final String INSERT_STATEMENT = "insert into punishments(type, target, executor, reason, executionTime, duration) values(?, ?, ?, ?, ?, ?);";
     private static final String UPDATE_STATEMENT = "update punishments set pardonExecutionTime = current_timestamp, pardonExecutor = ?, pardonReason = ? where id = ?;";
 
     public PunishmentDataHandler(@NotNull AbstractDataSource abstractDataSource) {
@@ -57,7 +55,8 @@ public final class PunishmentDataHandler extends AbstractAllDataHandler<UUID, Pu
         preparedStatement.setString(2, punishment.getTarget().toString());
         preparedStatement.setString(3, punishment.getExecutor().toString());
         preparedStatement.setString(4, punishment.getReason());
-        preparedStatement.setLong(5, punishment.getDuration());
+        preparedStatement.setTimestamp(5, Timestamp.from(Instant.ofEpochMilli(punishment.getExecutionTime())));
+        preparedStatement.setLong(6, punishment.getDuration());
 
         return CompletableFuture.supplyAsync(() -> {
             try {

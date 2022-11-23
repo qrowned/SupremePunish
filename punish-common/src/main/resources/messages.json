@@ -54,6 +54,33 @@
       "message": [
         "%prefix% §cThis player isn't punished for this type of reason."
       ]
+    },
+    {
+      "id": "punish.ban.screen",
+      "message": [
+        "§fMYNETWORK.NET",
+        "§4You got banned!",
+        "",
+        "§7ID: §c%id%",
+        "§7Reason: §c%reason%",
+        "§7Ends: §c%end%"
+      ]
+    },
+    {
+      "id": "punish.ban.notify",
+      "message": [
+        "%prefix% The player §c%target% §7got §nbanned§7 by §6%executor%§7!",
+        "%prefix% ID: §c%id%",
+        "%prefix% Reason: §c%reason%",
+        "%prefix% Duration: §c%duration%"
+      ]
+    },
+    {
+      "id": "punish.unban.notify",
+      "message": [
+        "%prefix% The player §c%target% §7got §nunbanned§7 by §6%executor%§7!",
+        "%prefix% Reason: §c%reason%"
+      ]
     }
   ]
 }

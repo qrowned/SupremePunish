@@ -23,6 +23,12 @@ public abstract class AbstractConfigMessage<P> implements Serializable {
     protected abstract void send(@NotNull P receiver, @NotNull List<String> messages);
 
     public void send(@NotNull P receiver, String... format) {
+        this.send(receiver, this.formatMessage(format));
+    }
+
+    public abstract void broadcast(@NotNull String permission, @NotNull String... format);
+
+    public List<String> formatMessage(String... format) {
         List<String> strings = new ArrayList<>(Arrays.asList(format));
         strings.addAll(Arrays.asList(
                 "%prefix%",
@@ -40,7 +46,7 @@ public abstract class AbstractConfigMessage<P> implements Serializable {
             }
             messages.add(content);
         }
-        this.send(receiver, messages);
+        return messages;
     }
 
 }

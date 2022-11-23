@@ -11,12 +11,15 @@ import java.util.UUID;
 @AllArgsConstructor
 public abstract class AbstractPunishUser {
 
+    public static UUID CONSOLE_UUID = new UUID(0, 0);
+
     protected final UUID uuid;
     protected String name;
 
     protected final Instant createdAt;
 
-    public AbstractPunishUser(@NotNull UUID uuid, @NotNull String name) {
+    public AbstractPunishUser(@NotNull UUID uuid,
+                              @NotNull String name) {
         this.uuid = uuid;
         this.name = name;
         this.createdAt = Instant.now();

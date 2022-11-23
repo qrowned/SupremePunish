@@ -45,15 +45,20 @@ public final class CommonPunishmentHandler implements PunishmentHandler {
                     if (punishment.isPresent())
                         return CompletableFuture.supplyAsync(() -> new PunishResult<>("punish.existing"));
 
-                    return this.punishUserHandler.fetchUser(executor).thenComposeAsync(abstractPunishUser -> {
-                        if (abstractPunishUser == null || !abstractPunishUser.hasPermission(punishmentReason.getPermission()))
+                    return this.punishUserHandler.fetchUser(executor).thenComposeAsync(executorUser -> {
+                        if (executorUser == null || !executorUser.hasPermission(punishmentReason.getPermission()))
                             return CompletableFuture.supplyAsync(() -> new PunishResult<>("punish.reason.noPermission"));
 
-                        return this.punishmentDataHandler.insertDataWithReturn(new Punishment(target, executor, punishmentReason)).thenApplyAsync(createdPunishment -> {
-                            if (createdPunishment == null) return new PunishResult<>("internalError");
+                        return this.punishUserHandler.fetchUser(target).thenComposeAsync(targetUser -> {
+                            if (targetUser == null || targetUser.hasPermission("supremepunish.bypass"))
+                                return CompletableFuture.supplyAsync(() -> new PunishResult<>("punish.reason.noPermission"));
 
-                            this.eventHandler.call(new PlayerPunishEvent(target, executor, createdPunishment, punishmentReason));
-                            return new PunishResult<>(createdPunishment);
+                            return this.punishmentDataHandler.insertDataWithReturn(new Punishment(target, executor, punishmentReason)).thenApplyAsync(createdPunishment -> {
+                                if (createdPunishment == null) return new PunishResult<>("internalError");
+
+                                this.eventHandler.call(new PlayerPunishEvent(target, executor, createdPunishment, punishmentReason));
+                                return new PunishResult<>(createdPunishment);
+                            });
                         });
                     });
                 }

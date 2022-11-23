@@ -4,8 +4,10 @@ import dev.qrowned.punish.api.punish.Punishment;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.punish.PunishmentReason;
 import dev.qrowned.punish.bungee.PunishBungeePlugin;
+import dev.qrowned.punish.bungee.message.BungeeConfigMessage;
+import dev.qrowned.punish.bungee.message.BungeeMessageHandler;
 import dev.qrowned.punish.common.event.listener.AbstractConnectionListener;
-import net.md_5.bungee.api.chat.TextComponent;
+import dev.qrowned.punish.common.util.DurationFormatter;
 import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.LoginEvent;
@@ -19,11 +21,15 @@ public final class BungeeConnectionListener extends AbstractConnectionListener i
 
     private final PunishBungeePlugin plugin;
     private final PunishmentHandler punishmentHandler;
+    private final BungeeMessageHandler messageHandler;
 
-    public BungeeConnectionListener(@NotNull PunishBungeePlugin plugin, @NotNull PunishmentHandler punishmentHandler) {
+    public BungeeConnectionListener(@NotNull PunishBungeePlugin plugin,
+                                    @NotNull PunishmentHandler punishmentHandler,
+                                    @NotNull BungeeMessageHandler messageHandler) {
         super(plugin);
         this.plugin = plugin;
         this.punishmentHandler = punishmentHandler;
+        this.messageHandler = messageHandler;
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -37,7 +43,12 @@ public final class BungeeConnectionListener extends AbstractConnectionListener i
                 if (punishmentOptional.isPresent()) {
                     Punishment punishment = punishmentOptional.get();
                     PunishmentReason punishmentReason = this.punishmentHandler.getPunishmentReason(punishment.getReason());
-                    event.setCancelReason(TextComponent.fromLegacyText("You got banned with the reason " + (punishmentReason == null ? punishment.getReason() : punishmentReason.getDisplayName())));
+
+                    BungeeConfigMessage banScreenMessage = (BungeeConfigMessage) this.messageHandler.getMessage("punish.ban.screen");
+                    event.setCancelReason(banScreenMessage.parseBaseComponent(
+                            "%reason%", punishmentReason == null ? punishment.getReason() : punishmentReason.getDisplayName(),
+                            "%end%", DurationFormatter.formatPunishDuration(punishment.getRemainingDuration()),
+                            "%id%", Integer.toString(punishment.getId())));
                     event.setCancelled(true);
                 }
 

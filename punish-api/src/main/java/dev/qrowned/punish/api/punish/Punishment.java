@@ -39,7 +39,12 @@ public class Punishment implements Serializable {
 
     public boolean isActive() {
         if (this.isPardon()) return false;
-        return System.currentTimeMillis() <= (this.executionTime + this.duration);
+        return this.getRemainingDuration() == -1 || this.getRemainingDuration() > 0;
+    }
+
+    public long getRemainingDuration() {
+        if (this.duration == -1) return -1;
+        return (this.executionTime + this.duration) - System.currentTimeMillis();
     }
 
     public boolean isPardon() {

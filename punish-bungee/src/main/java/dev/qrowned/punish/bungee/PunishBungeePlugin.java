@@ -49,7 +49,7 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
     @Override
     protected void registerPlatformListener() {
         PluginManager pluginManager = this.bootstrap.getProxy().getPluginManager();
-        pluginManager.registerListener(this.bootstrap.getLoader(), new BungeeConnectionListener(this, super.punishmentHandler));
+        pluginManager.registerListener(this.bootstrap.getLoader(), new BungeeConnectionListener(this, super.punishmentHandler, this.messageHandler));
     }
 
     @Override
@@ -67,8 +67,8 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
         super.registerPluginListener();
 
         super.eventHandler.registerEventAdapter(
-                new BungeePunishListener(super.punishmentDataHandler),
-                new BungeePardonListener(super.punishmentDataHandler)
+                new BungeePunishListener(this.messageHandler, super.userHandler, super.punishmentDataHandler),
+                new BungeePardonListener(this.messageHandler, super.userHandler, super.punishmentDataHandler)
         );
     }
 }

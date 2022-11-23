@@ -27,6 +27,8 @@ public final class BungeePunishUser extends AbstractPunishUser {
      */
     @Override
     public boolean hasPermission(@NotNull String permission) {
+        if (super.uuid.equals(CONSOLE_UUID)) return true;
+
         ProxiedPlayer player = ProxyServer.getInstance().getPlayer(super.uuid);
         if (player == null) return false;
         return player.hasPermission(permission);
