@@ -6,6 +6,7 @@ import dev.qrowned.punish.bungee.command.impl.BanCommand;
 import dev.qrowned.punish.bungee.command.impl.ReloadCommand;
 import dev.qrowned.punish.bungee.command.impl.TestCommand;
 import dev.qrowned.punish.bungee.command.impl.UnbanCommand;
+import dev.qrowned.punish.bungee.listener.BungeeChatMessageListener;
 import dev.qrowned.punish.bungee.listener.BungeeConnectionListener;
 import dev.qrowned.punish.bungee.listener.punish.BungeePardonListener;
 import dev.qrowned.punish.bungee.listener.punish.BungeePunishListener;
@@ -50,6 +51,7 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
     protected void registerPlatformListener() {
         PluginManager pluginManager = this.bootstrap.getProxy().getPluginManager();
         pluginManager.registerListener(this.bootstrap.getLoader(), new BungeeConnectionListener(this, super.punishmentHandler, this.messageHandler));
+        pluginManager.registerListener(this.bootstrap.getLoader(), new BungeeChatMessageListener(this.messageHandler, super.punishmentHandler));
     }
 
     @Override

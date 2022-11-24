@@ -67,6 +67,15 @@
       ]
     },
     {
+      "id": "punish.mute.screen",
+      "message": [
+        "%prefix% §4You got muted!",
+        "%prefix% §7ID: §c%id%",
+        "%prefix% §7Reason: §c%reason%",
+        "%prefix% §7Ends: §c%end%"
+      ]
+    },
+    {
       "id": "punish.ban.notify",
       "message": [
         "%prefix% The player §c%target% §7got §nbanned§7 by §6%executor%§7!",
