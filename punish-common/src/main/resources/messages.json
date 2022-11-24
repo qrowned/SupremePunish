@@ -46,7 +46,13 @@
     {
       "id": "punish.unban.successful",
       "message": [
-        "%prefix% You've §asuccessfully §7unbanned §6%target%§7."
+        "%prefix% You've §asuccessfully §7§nunbanned§6 %target%§7."
+      ]
+    },
+    {
+      "id": "punish.unmute.successful",
+      "message": [
+        "%prefix% You've §asuccessfully §7§nunmuted§6 %target%§7."
       ]
     },
     {
@@ -85,10 +91,32 @@
       ]
     },
     {
+      "id": "punish.mute.notify",
+      "message": [
+        "%prefix% The player §c%target% §7got §nmuted§7 by §6%executor%§7!",
+        "%prefix% ID: §c%id%",
+        "%prefix% Reason: §c%reason%",
+        "%prefix% Duration: §c%duration%"
+      ]
+    },
+    {
       "id": "punish.unban.notify",
       "message": [
         "%prefix% The player §c%target% §7got §nunbanned§7 by §6%executor%§7!",
         "%prefix% Reason: §c%reason%"
+      ]
+    },
+    {
+      "id": "punish.unmute.notify",
+      "message": [
+        "%prefix% The player §c%target% §7got §nunmuted§7 by §6%executor%§7!",
+        "%prefix% Reason: §c%reason%"
+      ]
+    },
+    {
+      "id": "punish.unmute.user.notify",
+      "message": [
+        "%prefix% §6You got unmuted!"
       ]
     }
   ]

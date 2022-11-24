@@ -14,9 +14,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-public abstract class AbstractPunishListener extends EventAdapter<PlayerPunishEvent> {
+public abstract class AbstractPunishListener<P> extends EventAdapter<PlayerPunishEvent> {
 
-    protected final MessageHandler<?> messageHandler;
+    protected final MessageHandler<P> messageHandler;
     protected final PunishUserHandler punishUserHandler;
     protected final PunishmentDataHandler punishmentDataHandler;
 
@@ -33,8 +33,8 @@ public abstract class AbstractPunishListener extends EventAdapter<PlayerPunishEv
         if (targetUser == null || executorUser == null) return;
 
         Punishment punishment = event.getPunishment();
+        String displayName = event.getPunishmentReason().getDisplayName();
         if (punishment.getType().equals(Punishment.Type.BAN)) {
-            String displayName = event.getPunishmentReason().getDisplayName();
             this.disconnect(target, "punish.ban.screen",
                     "%reason%", displayName,
                     "%end%", DurationFormatter.formatPunishDuration(punishment.getRemainingDuration()),
@@ -46,8 +46,24 @@ public abstract class AbstractPunishListener extends EventAdapter<PlayerPunishEv
                     "%executor%", executorUser.getName(),
                     "%target%", targetUser.getName(),
                     "%id%", Integer.toString(punishment.getId()));
+        } else if (punishment.getType().equals(Punishment.Type.MUTE)) {
+            P targetPlayer = this.getPlayer(target);
+            if (targetPlayer != null)
+                this.messageHandler.getMessage("punish.mute.screen").send(targetPlayer,
+                        "%reason%", displayName,
+                        "%end%", DurationFormatter.formatPunishDuration(punishment.getRemainingDuration()),
+                        "%id%", Integer.toString(punishment.getId())
+                );
+            this.messageHandler.getMessage("punish.mute.notify").broadcast("supremepunish.notify.mute",
+                    "%reason%", displayName,
+                    "%duration%", DurationFormatter.formatPunishDuration(punishment.getDuration()),
+                    "%executor%", executorUser.getName(),
+                    "%target%", targetUser.getName(),
+                    "%id%", Integer.toString(punishment.getId()));
         }
     }
+
+    protected abstract P getPlayer(@NotNull UUID uuid);
 
     protected abstract void disconnect(@NotNull UUID uuid, @NotNull String messageId, String... format);
 

@@ -1,6 +1,7 @@
 package dev.qrowned.punish.bungee.command;
 
 import dev.qrowned.punish.api.command.AbstractPunishCommand;
+import dev.qrowned.punish.api.user.AbstractPunishUser;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
@@ -20,7 +21,7 @@ public abstract class BungeePunishCommand extends AbstractPunishCommand<CommandS
 
     @Override
     public UUID getUUID(CommandSender player) {
-        return player instanceof ProxiedPlayer proxiedPlayer ? proxiedPlayer.getUniqueId() : new UUID(0, 0);
+        return player instanceof ProxiedPlayer proxiedPlayer ? proxiedPlayer.getUniqueId() : AbstractPunishUser.CONSOLE_UUID;
     }
 
 }

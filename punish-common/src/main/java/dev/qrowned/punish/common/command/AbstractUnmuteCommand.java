@@ -10,7 +10,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-public abstract class AbstractUnbanCommand<P> extends AbstractPunishCommand<P> {
+public abstract class AbstractUnmuteCommand<P> extends AbstractPunishCommand<P> {
 
     private final MessageHandler<P> messageHandler;
     private final PunishUserHandler punishUserHandler;
@@ -31,13 +31,14 @@ public abstract class AbstractUnbanCommand<P> extends AbstractPunishCommand<P> {
             }
 
             String reason = args.length == 1 ? "-" : String.join(" ", ArrayUtils.subarray(args, 1, args.length));
-            this.punishmentHandler.unban(target.getUuid(), executor, reason).thenAcceptAsync(result -> {
+            this.punishmentHandler.unmute(target.getUuid(), executor, reason).thenAcceptAsync(result -> {
                 if (!result.isSuccess()) {
                     this.messageHandler.getMessage(result.getMessage()).send(sender);
                 } else {
-                    this.messageHandler.getMessage("punish.unban.successful").send(sender, "%target%", target.getName());
+                    this.messageHandler.getMessage("punish.unmute.successful").send(sender, "%target%", target.getName());
                 }
             });
         });
     }
+
 }

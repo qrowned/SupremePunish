@@ -27,20 +27,12 @@ public final class CommonPunishmentHandler implements PunishmentHandler {
     private final PunishmentDataHandler punishmentDataHandler;
 
     @Override
-    public CompletableFuture<PunishResult<Punishment>> punish(@NotNull UUID target, @NotNull UUID executor, @NotNull String reason) {
-        PunishmentReason punishmentReason = this.getPunishmentReason(reason);
-        if (punishmentReason == null)
-            return CompletableFuture.supplyAsync(() -> new PunishResult<>("punish.reason.notFound"));
-
-        return this.punish(target, executor, punishmentReason);
-    }
-
-    @Override
     public CompletableFuture<PunishResult<Punishment>> punish(@NotNull UUID target, @NotNull UUID executor, @NotNull Punishment.Type type, @NotNull String reason, long duration) {
         return this.punish(target, executor, new PunishmentReason(reason, duration, TimeUnit.MILLISECONDS, type));
     }
 
-    private CompletableFuture<PunishResult<Punishment>> punish(@NotNull UUID target, @NotNull UUID executor, @NotNull PunishmentReason punishmentReason) {
+    @Override
+    public CompletableFuture<PunishResult<Punishment>> punish(@NotNull UUID target, @NotNull UUID executor, @NotNull PunishmentReason punishmentReason) {
         return this.getActivePunishment(target, punishmentReason.getType()).thenComposeAsync(punishment -> {
                     if (punishment.isPresent())
                         return CompletableFuture.supplyAsync(() -> new PunishResult<>("punish.existing"));
@@ -68,7 +60,8 @@ public final class CommonPunishmentHandler implements PunishmentHandler {
     @Override
     public CompletableFuture<PunishResult<Punishment>> pardon(@NotNull UUID target, @NotNull UUID executor, @NotNull Punishment.Type type, @NotNull String reason) {
         return this.getActivePunishment(target, type).thenApplyAsync(punishmentOptional -> {
-            if (punishmentOptional.isEmpty()) return new PunishResult<>("punish.notExisting");
+            if (punishmentOptional.isEmpty() || punishmentOptional.get().getType().equals(Punishment.Type.KICK))
+                return new PunishResult<>("punish.notExisting");
 
             Punishment punishment = punishmentOptional.get();
             punishment.setPardonExecutor(executor);
@@ -93,6 +86,14 @@ public final class CommonPunishmentHandler implements PunishmentHandler {
     @Override
     public PunishmentReason getPunishmentReason(@NotNull String id) {
         return this.punishmentsConfig.getPunishmentReasons().stream().filter(punishmentReason -> punishmentReason.checkAlias(id))
+                .findFirst().orElse(null);
+    }
+
+    @Override
+    public PunishmentReason getPunishmentReason(@NotNull String id, @NotNull Punishment.Type type) {
+        return this.punishmentsConfig.getPunishmentReasons().stream()
+                .filter(punishmentReason -> punishmentReason.getType().equals(type))
+                .filter(punishmentReason -> punishmentReason.checkAlias(id))
                 .findFirst().orElse(null);
     }
 

@@ -2,7 +2,6 @@ package dev.qrowned.punish.common.command;
 
 import dev.qrowned.punish.api.command.AbstractPunishCommand;
 import dev.qrowned.punish.api.message.MessageHandler;
-import dev.qrowned.punish.api.punish.Punishment;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.PunishUserHandler;
 import dev.qrowned.punish.common.util.DurationFormatter;
@@ -10,12 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public abstract class AbstractBanCommand<P> extends AbstractPunishCommand<P> {
+public abstract class AbstractMuteCommand<P> extends AbstractPunishCommand<P> {
 
     private final MessageHandler<P> messageHandler;
     private final PunishUserHandler punishUserHandler;
@@ -36,13 +33,13 @@ public abstract class AbstractBanCommand<P> extends AbstractPunishCommand<P> {
             }
 
             if (args.length == 2) {
-                this.punishmentHandler.ban(target.getUuid(), executor, args[1]).thenAcceptAsync(result -> {
+                this.punishmentHandler.mute(target.getUuid(), executor, args[1]).thenAcceptAsync(result -> {
                     if (!result.isSuccess()) {
                         this.messageHandler.getMessage(result.getMessage()).send(sender);
                     }
                 });
                 return;
-            } else if (args.length > 2 && this.hasPermission(sender, "supremepunish.ban.custom")) {
+            } else if (args.length > 2 && this.hasPermission(sender, "supremepunish.mute.custom")) {
                 long duration = DurationFormatter.parseDuration(args[1]);
                 if (duration == 0) {
                     this.messageHandler.getMessage("punish.time.wrongFormat").send(sender);
@@ -50,7 +47,7 @@ public abstract class AbstractBanCommand<P> extends AbstractPunishCommand<P> {
                 }
 
                 String reason = String.join(" ", ArrayUtils.subarray(args, 2, args.length));
-                this.punishmentHandler.ban(target.getUuid(), executor, reason, duration).thenAcceptAsync(result -> {
+                this.punishmentHandler.mute(target.getUuid(), executor, reason, duration).thenAcceptAsync(result -> {
                     if (!result.isSuccess()) {
                         this.messageHandler.getMessage(result.getMessage()).send(sender);
                     }
@@ -61,19 +58,6 @@ public abstract class AbstractBanCommand<P> extends AbstractPunishCommand<P> {
         });
     }
 
-    @Override
-    public List<String> handleTabCompletion(P sender, String cursor, int currentArg, String[] args) {
-        if (currentArg == 1) {
-            return this.punishmentHandler.getPunishmentReasons().stream()
-                    .filter(punishmentReason -> punishmentReason.getType().equals(Punishment.Type.BAN))
-                    .filter(punishmentReason -> this.hasPermission(sender, punishmentReason.getPermission()))
-                    .flatMap(punishmentReason -> punishmentReason.getUsableIds().stream())
-                    .collect(Collectors.toList());
-        }
-        return super.handleTabCompletion(sender, cursor, currentArg, args);
-    }
-
-
-    protected abstract boolean hasPermission(@NotNull P player, @NotNull String permission);
+    public abstract boolean hasPermission(P sender, @NotNull String permission);
 
 }

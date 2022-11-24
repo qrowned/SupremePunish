@@ -7,6 +7,7 @@ import dev.qrowned.punish.bungee.message.BungeeConfigMessage;
 import dev.qrowned.punish.bungee.message.BungeeMessageHandler;
 import dev.qrowned.punish.common.event.listener.AbstractPunishListener;
 import dev.qrowned.punish.common.punish.PunishmentDataHandler;
+import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.jetbrains.annotations.NotNull;
@@ -14,12 +15,17 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 @EventListener(clazz = PlayerPunishEvent.class)
-public final class BungeePunishListener extends AbstractPunishListener {
+public final class BungeePunishListener extends AbstractPunishListener<CommandSender> {
 
     public BungeePunishListener(@NotNull BungeeMessageHandler messageHandler,
                                 @NotNull PunishUserHandler punishUserHandler,
                                 @NotNull PunishmentDataHandler punishmentDataHandler) {
         super(messageHandler, punishUserHandler, punishmentDataHandler);
+    }
+
+    @Override
+    protected CommandSender getPlayer(@NotNull UUID uuid) {
+        return ProxyServer.getInstance().getPlayer(uuid);
     }
 
     @Override

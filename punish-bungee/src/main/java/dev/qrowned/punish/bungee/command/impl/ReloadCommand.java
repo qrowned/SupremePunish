@@ -2,6 +2,7 @@ package dev.qrowned.punish.bungee.command.impl;
 
 import dev.qrowned.punish.api.command.annotation.Command;
 import dev.qrowned.punish.api.config.ConfigProvider;
+import dev.qrowned.punish.api.user.AbstractPunishUser;
 import dev.qrowned.punish.bungee.message.BungeeMessageHandler;
 import dev.qrowned.punish.common.command.AbstractReloadCommand;
 import dev.qrowned.punish.common.punish.PunishmentDataHandler;
@@ -12,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-@Command(name = "reload", aliases = "", permission = "supremepunish.reload")
+@Command(name = "reload", aliases = {}, permission = "supremepunish.reload")
 public final class ReloadCommand extends AbstractReloadCommand<CommandSender> {
 
     public ReloadCommand(@NotNull ConfigProvider configProvider,
@@ -34,7 +35,7 @@ public final class ReloadCommand extends AbstractReloadCommand<CommandSender> {
 
     @Override
     public UUID getUUID(CommandSender player) {
-        return player instanceof ProxiedPlayer proxiedPlayer ? proxiedPlayer.getUniqueId() : new UUID(0, 0);
+        return player instanceof ProxiedPlayer proxiedPlayer ? proxiedPlayer.getUniqueId() : AbstractPunishUser.CONSOLE_UUID;
     }
 
 }

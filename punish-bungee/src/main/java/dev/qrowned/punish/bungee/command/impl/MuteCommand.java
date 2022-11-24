@@ -5,20 +5,20 @@ import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.AbstractPunishUser;
 import dev.qrowned.punish.api.user.PunishUserHandler;
 import dev.qrowned.punish.bungee.message.BungeeMessageHandler;
-import dev.qrowned.punish.common.command.AbstractBanCommand;
+import dev.qrowned.punish.common.command.AbstractMuteCommand;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-@Command(name = "ban", aliases = {}, permission = "supremepunish.ban")
-public final class BanCommand extends AbstractBanCommand<CommandSender> {
+@Command(name = "mute", aliases = {}, permission = "supremepunish.mute")
+public final class MuteCommand extends AbstractMuteCommand<CommandSender> {
 
-    public BanCommand(@NotNull BungeeMessageHandler bungeeMessageHandler,
-                      @NotNull PunishUserHandler punishUserHandler,
-                      @NotNull PunishmentHandler punishmentHandler) {
-        super(bungeeMessageHandler, punishUserHandler, punishmentHandler);
+    public MuteCommand(@NotNull BungeeMessageHandler messageHandler,
+                       @NotNull PunishUserHandler punishUserHandler,
+                       @NotNull PunishmentHandler punishmentHandler) {
+        super(messageHandler, punishUserHandler, punishmentHandler);
     }
 
     @Override
@@ -27,7 +27,7 @@ public final class BanCommand extends AbstractBanCommand<CommandSender> {
 
     @Override
     public boolean hasPermission(CommandSender player) {
-        return player.hasPermission(this.getPermission());
+        return this.hasPermission(player, this.getPermission());
     }
 
     @Override
@@ -36,7 +36,7 @@ public final class BanCommand extends AbstractBanCommand<CommandSender> {
     }
 
     @Override
-    protected boolean hasPermission(@NotNull CommandSender player, @NotNull String permission) {
-        return player.hasPermission(permission);
+    public boolean hasPermission(CommandSender sender, @NotNull String permission) {
+        return sender.hasPermission(permission);
     }
 }

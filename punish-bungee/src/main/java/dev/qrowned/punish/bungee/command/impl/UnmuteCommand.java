@@ -5,20 +5,20 @@ import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.AbstractPunishUser;
 import dev.qrowned.punish.api.user.PunishUserHandler;
 import dev.qrowned.punish.bungee.message.BungeeMessageHandler;
-import dev.qrowned.punish.common.command.AbstractBanCommand;
+import dev.qrowned.punish.common.command.AbstractUnmuteCommand;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-@Command(name = "ban", aliases = {}, permission = "supremepunish.ban")
-public final class BanCommand extends AbstractBanCommand<CommandSender> {
+@Command(name = "unmute", permission = "supremepunish.unmute", aliases = {})
+public final class UnmuteCommand extends AbstractUnmuteCommand<CommandSender> {
 
-    public BanCommand(@NotNull BungeeMessageHandler bungeeMessageHandler,
-                      @NotNull PunishUserHandler punishUserHandler,
-                      @NotNull PunishmentHandler punishmentHandler) {
-        super(bungeeMessageHandler, punishUserHandler, punishmentHandler);
+    public UnmuteCommand(@NotNull BungeeMessageHandler messageHandler,
+                         @NotNull PunishUserHandler punishUserHandler,
+                         @NotNull PunishmentHandler punishmentHandler) {
+        super(messageHandler, punishUserHandler, punishmentHandler);
     }
 
     @Override
@@ -35,8 +35,4 @@ public final class BanCommand extends AbstractBanCommand<CommandSender> {
         return player instanceof ProxiedPlayer proxiedPlayer ? proxiedPlayer.getUniqueId() : AbstractPunishUser.CONSOLE_UUID;
     }
 
-    @Override
-    protected boolean hasPermission(@NotNull CommandSender player, @NotNull String permission) {
-        return player.hasPermission(permission);
-    }
 }

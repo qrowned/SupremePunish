@@ -2,10 +2,7 @@ package dev.qrowned.punish.bungee;
 
 import dev.qrowned.punish.bungee.bootstrap.PunishBungeeBootstrap;
 import dev.qrowned.punish.bungee.command.BungeeCommandHandler;
-import dev.qrowned.punish.bungee.command.impl.BanCommand;
-import dev.qrowned.punish.bungee.command.impl.ReloadCommand;
-import dev.qrowned.punish.bungee.command.impl.TestCommand;
-import dev.qrowned.punish.bungee.command.impl.UnbanCommand;
+import dev.qrowned.punish.bungee.command.impl.*;
 import dev.qrowned.punish.bungee.listener.BungeeChatMessageListener;
 import dev.qrowned.punish.bungee.listener.BungeeConnectionListener;
 import dev.qrowned.punish.bungee.listener.punish.BungeePardonListener;
@@ -58,9 +55,11 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
     protected void registerCommands() {
         this.commandHandler = new BungeeCommandHandler(this.bootstrap.getLoader());
         this.commandHandler.registerCommands(
-                new TestCommand(), new BanCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
+                new BanCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
                 new ReloadCommand(super.configProvider, this.messageHandler, super.punishUserDataHandler, super.punishmentDataHandler),
-                new UnbanCommand(this.messageHandler, super.userHandler, super.punishmentHandler)
+                new UnbanCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
+                new MuteCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
+                new UnmuteCommand(this.messageHandler, super.userHandler, super.punishmentHandler)
         );
     }
 

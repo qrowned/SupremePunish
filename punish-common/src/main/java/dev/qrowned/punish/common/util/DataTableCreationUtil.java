@@ -1,11 +1,11 @@
 package dev.qrowned.punish.common.util;
 
 import dev.qrowned.punish.api.database.AbstractDataSource;
+import dev.qrowned.punish.api.user.AbstractPunishUser;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.PreparedStatement;
-import java.util.UUID;
 
 public final class DataTableCreationUtil {
 
@@ -42,7 +42,7 @@ public final class DataTableCreationUtil {
         abstractDataSource.update(punishUserStatement);
 
         PreparedStatement consoleUserStatement = abstractDataSource.prepare("insert into punish_user(uuid, name) values (?, ?) on duplicate key update name = name;");
-        consoleUserStatement.setString(1, new UUID(0, 0).toString());
+        consoleUserStatement.setString(1, AbstractPunishUser.CONSOLE_UUID.toString());
         consoleUserStatement.setString(2, "ConsoleAdmin");
         abstractDataSource.update(consoleUserStatement);
 
