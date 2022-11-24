@@ -29,7 +29,7 @@ public final class CommonChannelHandler implements ChannelHandler {
         this.channel = connection.createChannel();
         this.channel.exchangeDeclare(channelName, BuiltinExchangeType.FANOUT);
 
-        this.consumer = new DefaultConsumer(channel) {
+        this.consumer = new DefaultConsumer(this.channel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) {
                 CompletableFuture.runAsync(() -> {

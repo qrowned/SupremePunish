@@ -2,6 +2,7 @@ package dev.qrowned.punish.common.command;
 
 import dev.qrowned.punish.api.command.AbstractPunishCommand;
 import dev.qrowned.punish.api.message.MessageHandler;
+import dev.qrowned.punish.api.punish.Punishment;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.PunishUserHandler;
 import dev.qrowned.punish.common.util.DurationFormatter;
@@ -9,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public abstract class AbstractMuteCommand<P> extends AbstractPunishCommand<P> {
@@ -56,6 +59,18 @@ public abstract class AbstractMuteCommand<P> extends AbstractPunishCommand<P> {
             }
             this.handleNoSubCommandFound(sender, args);
         });
+    }
+
+    @Override
+    public List<String> handleTabCompletion(P sender, String cursor, int currentArg, String[] args) {
+        if (currentArg == 1) {
+            return this.punishmentHandler.getPunishmentReasons().stream()
+                    .filter(punishmentReason -> punishmentReason.getType().equals(Punishment.Type.MUTE))
+                    .filter(punishmentReason -> this.hasPermission(sender, punishmentReason.getPermission()))
+                    .flatMap(punishmentReason -> punishmentReason.getUsableIds().stream())
+                    .collect(Collectors.toList());
+        }
+        return super.handleTabCompletion(sender, cursor, currentArg, args);
     }
 
     public abstract boolean hasPermission(P sender, @NotNull String permission);

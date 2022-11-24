@@ -5,19 +5,19 @@ import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.AbstractPunishUser;
 import dev.qrowned.punish.api.user.PunishUserHandler;
 import dev.qrowned.punish.bungee.message.BungeeMessageHandler;
-import dev.qrowned.punish.common.command.AbstractUnmuteCommand;
+import dev.qrowned.punish.common.command.AbstractKickCommand;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-@Command(name = "unmute", permission = "supremepunish.unmute")
-public final class UnmuteCommand extends AbstractUnmuteCommand<CommandSender> {
+@Command(name = "kick", permission = "supremepunish.kick")
+public final class KickCommand extends AbstractKickCommand<CommandSender> {
 
-    public UnmuteCommand(@NotNull BungeeMessageHandler messageHandler,
-                         @NotNull PunishUserHandler punishUserHandler,
-                         @NotNull PunishmentHandler punishmentHandler) {
+    public KickCommand(@NotNull BungeeMessageHandler messageHandler,
+                       @NotNull PunishUserHandler punishUserHandler,
+                       @NotNull PunishmentHandler punishmentHandler) {
         super(messageHandler, punishUserHandler, punishmentHandler);
     }
 
@@ -27,7 +27,7 @@ public final class UnmuteCommand extends AbstractUnmuteCommand<CommandSender> {
 
     @Override
     public boolean hasPermission(CommandSender player) {
-        return player.hasPermission(this.getPermission());
+        return this.hasPermission(player, this.getPermission());
     }
 
     @Override
@@ -35,4 +35,8 @@ public final class UnmuteCommand extends AbstractUnmuteCommand<CommandSender> {
         return player instanceof ProxiedPlayer proxiedPlayer ? proxiedPlayer.getUniqueId() : AbstractPunishUser.CONSOLE_UUID;
     }
 
+    @Override
+    public boolean hasPermission(CommandSender sender, @NotNull String permission) {
+        return sender.hasPermission(permission);
+    }
 }

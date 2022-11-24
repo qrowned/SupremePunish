@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-@Command(name = "ban", aliases = {}, permission = "supremepunish.ban")
+@Command(name = "ban", permission = "supremepunish.ban")
 public final class BanCommand extends AbstractBanCommand<CommandSender> {
 
     public BanCommand(@NotNull BungeeMessageHandler bungeeMessageHandler,

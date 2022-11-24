@@ -60,6 +60,17 @@ public abstract class AbstractPunishListener<P> extends EventAdapter<PlayerPunis
                     "%executor%", executorUser.getName(),
                     "%target%", targetUser.getName(),
                     "%id%", Integer.toString(punishment.getId()));
+        } else if (punishment.getType().equals(Punishment.Type.KICK)) {
+            this.disconnect(target, "punish.kick.screen",
+                    "%reason%", displayName,
+                    "%id%", Integer.toString(punishment.getId())
+            );
+            this.messageHandler.getMessage("punish.kick.notify").broadcast("supremepunish.notify.kick",
+                    "%reason%", displayName,
+                    "%executor%", executorUser.getName(),
+                    "%target%", targetUser.getName(),
+                    "%id%", Integer.toString(punishment.getId())
+            );
         }
     }
 

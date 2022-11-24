@@ -73,6 +73,15 @@
       ]
     },
     {
+      "id": "punish.kick.screen",
+      "message": [
+        "§fMYNETWORK.NET",
+        "§4You got kicked!",
+        "",
+        "§7Reason: §c%reason%"
+      ]
+    },
+    {
       "id": "punish.mute.screen",
       "message": [
         "%prefix% §4You got muted!",
@@ -97,6 +106,13 @@
         "%prefix% ID: §c%id%",
         "%prefix% Reason: §c%reason%",
         "%prefix% Duration: §c%duration%"
+      ]
+    },
+    {
+      "id": "punish.kick.notify",
+      "message": [
+        "%prefix% The player §c%target% §7got §nkicked§7 by §6%executor%§7!",
+        "%prefix% Reason: §c%reason%"
       ]
     },
     {

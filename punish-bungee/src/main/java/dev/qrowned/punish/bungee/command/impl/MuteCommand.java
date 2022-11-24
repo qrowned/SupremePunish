@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-@Command(name = "mute", aliases = {}, permission = "supremepunish.mute")
+@Command(name = "mute", permission = "supremepunish.mute")
 public final class MuteCommand extends AbstractMuteCommand<CommandSender> {
 
     public MuteCommand(@NotNull BungeeMessageHandler messageHandler,

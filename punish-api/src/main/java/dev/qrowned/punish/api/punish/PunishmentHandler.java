@@ -47,7 +47,7 @@ public interface PunishmentHandler {
     }
 
     default CompletableFuture<PunishResult<Punishment>> kick(@NotNull UUID target, @NotNull UUID executor, @NotNull String reason) {
-        return this.punish(target, executor, Punishment.Type.KICK, reason, -1);
+        return this.punish(target, executor, Punishment.Type.KICK, reason, 0);
     }
 
     CompletableFuture<PunishResult<Punishment>> pardon(@NotNull UUID target, @NotNull UUID executor, @NotNull Punishment.Type type, @NotNull String reason);

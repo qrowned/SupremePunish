@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-@Command(name = "reload", aliases = {}, permission = "supremepunish.reload")
+@Command(name = "reload", permission = "supremepunish.reload")
 public final class ReloadCommand extends AbstractReloadCommand<CommandSender> {
 
     public ReloadCommand(@NotNull ConfigProvider configProvider,

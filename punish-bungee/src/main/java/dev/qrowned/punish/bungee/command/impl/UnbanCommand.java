@@ -11,7 +11,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.UUID;
 
-@Command(name = "unban", aliases = {}, permission = "supremepunish.unban")
+@Command(name = "unban", permission = "supremepunish.unban")
 public final class UnbanCommand extends AbstractUnbanCommand<CommandSender> {
 
     public UnbanCommand(BungeeMessageHandler messageHandler,

@@ -60,8 +60,7 @@ public final class CommonPunishmentHandler implements PunishmentHandler {
     @Override
     public CompletableFuture<PunishResult<Punishment>> pardon(@NotNull UUID target, @NotNull UUID executor, @NotNull Punishment.Type type, @NotNull String reason) {
         return this.getActivePunishment(target, type).thenApplyAsync(punishmentOptional -> {
-            if (punishmentOptional.isEmpty() || punishmentOptional.get().getType().equals(Punishment.Type.KICK))
-                return new PunishResult<>("punish.notExisting");
+            if (punishmentOptional.isEmpty()) return new PunishResult<>("punish.notExisting");
 
             Punishment punishment = punishmentOptional.get();
             punishment.setPardonExecutor(executor);

@@ -59,7 +59,8 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
                 new ReloadCommand(super.configProvider, this.messageHandler, super.punishUserDataHandler, super.punishmentDataHandler),
                 new UnbanCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
                 new MuteCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
-                new UnmuteCommand(this.messageHandler, super.userHandler, super.punishmentHandler)
+                new UnmuteCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
+                new KickCommand(this.messageHandler, super.userHandler, super.punishmentHandler)
         );
     }
 
