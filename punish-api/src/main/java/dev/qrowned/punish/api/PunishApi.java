@@ -5,11 +5,14 @@ import dev.qrowned.punish.api.command.CommandHandler;
 import dev.qrowned.punish.api.config.ConfigProvider;
 import dev.qrowned.punish.api.event.EventHandler;
 import dev.qrowned.punish.api.message.MessageHandler;
+import dev.qrowned.punish.api.platform.Platform;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.PunishUserHandler;
 import org.jetbrains.annotations.NotNull;
 
 public interface PunishApi {
+
+    @NotNull Platform getPlatform();
 
     @NotNull String getServerName();
 

@@ -7,6 +7,7 @@ import dev.qrowned.punish.api.command.CommandHandler;
 import dev.qrowned.punish.api.config.ConfigProvider;
 import dev.qrowned.punish.api.event.EventHandler;
 import dev.qrowned.punish.api.message.MessageHandler;
+import dev.qrowned.punish.api.platform.Platform;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.PunishUserHandler;
 import lombok.Getter;
@@ -35,6 +36,11 @@ public class SupremePunishApi implements PunishApi {
         this.punishmentHandler = plugin.getPunishmentHandler();
         this.commandHandler = plugin.getCommandHandler();
         this.messageHandler = plugin.getMessageHandler();
+    }
+
+    @Override
+    public @NotNull Platform getPlatform() {
+        return this.plugin.getPlatform();
     }
 
     @Override

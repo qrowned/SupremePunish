@@ -1,5 +1,6 @@
 package dev.qrowned.punish.api.user;
 
+import dev.qrowned.punish.api.PunishApiProvider;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
@@ -26,5 +27,9 @@ public abstract class AbstractPunishUser {
     }
 
     public abstract boolean hasPermission(@NotNull String permission);
+
+    public boolean isOnline() {
+        return PunishApiProvider.get().getPlatform().getUniqueConnections().contains(this.uuid);
+    }
 
 }

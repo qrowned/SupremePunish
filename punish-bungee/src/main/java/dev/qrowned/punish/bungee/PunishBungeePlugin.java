@@ -14,19 +14,23 @@ import dev.qrowned.punish.bungee.user.transformer.BungeePunishUserTransformer;
 import dev.qrowned.punish.common.AbstractPunishPlugin;
 import dev.qrowned.punish.common.user.PunishUserDataHandler;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.plugin.PluginManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
 @Getter
-@RequiredArgsConstructor
 public final class PunishBungeePlugin extends AbstractPunishPlugin {
 
     private final PunishBungeeBootstrap bootstrap;
 
     private BungeeCommandHandler commandHandler;
     private BungeeMessageHandler messageHandler;
+
+    public PunishBungeePlugin(@NotNull PunishBungeeBootstrap bootstrap) {
+        super(new BungeeCordPlatform(bootstrap.getStartupTime()));
+        this.bootstrap = bootstrap;
+    }
 
     @Override
     public void load() {
@@ -60,7 +64,8 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
                 new UnbanCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
                 new MuteCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
                 new UnmuteCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
-                new KickCommand(this.messageHandler, super.userHandler, super.punishmentHandler)
+                new KickCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
+                new PunishInfoCommand(this.messageHandler, super.userHandler, super.punishmentHandler)
         );
     }
 

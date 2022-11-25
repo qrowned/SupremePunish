@@ -134,6 +134,21 @@
       "message": [
         "%prefix% §6You got unmuted!"
       ]
+    },
+    {
+      "id": "punish.user.info",
+      "message": [
+        "%prefix% PunishInfo of §6%name% §8(§b%uuid%§8):",
+        "%prefix% Online: %online%",
+        "%prefix% §cBanned: §7%banned%",
+        "%prefix% §cMuted: §7%muted%"
+      ]
+    },
+    {
+      "id": "punish.user.notOnline",
+      "message": [
+        "%prefix% §cThis player is not online!"
+      ]
     }
   ]
 }

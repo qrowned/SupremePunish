@@ -35,6 +35,11 @@ public abstract class AbstractKickCommand<P> extends AbstractPunishCommand<P> {
                 return;
             }
 
+            if (!target.isOnline()) {
+                this.messageHandler.getMessage("punish.user.notOnline").send(sender);
+                return;
+            }
+
             if (args.length >= 2) {
                 String reason = String.join(" ", ArrayUtils.subarray(args, 1, args.length));
                 PunishmentReason punishmentReason = this.punishmentHandler.getPunishmentReason(reason, Punishment.Type.KICK);

@@ -4,6 +4,7 @@ import dev.qrowned.punish.api.PunishApiProvider;
 import dev.qrowned.punish.api.PunishPlugin;
 import dev.qrowned.punish.api.config.ConfigProvider;
 import dev.qrowned.punish.api.logger.PluginLogger;
+import dev.qrowned.punish.api.platform.Platform;
 import dev.qrowned.punish.common.amqp.CommonPubSubProvider;
 import dev.qrowned.punish.common.config.CommonConfigProvider;
 import dev.qrowned.punish.common.config.impl.LicenseConfig;
@@ -12,6 +13,7 @@ import dev.qrowned.punish.common.config.impl.PunishmentsConfig;
 import dev.qrowned.punish.common.config.impl.RabbitMqConfig;
 import dev.qrowned.punish.common.datasource.JsonConfigDataSource;
 import dev.qrowned.punish.common.event.CommonEventHandler;
+import dev.qrowned.punish.common.event.listener.NetworkPlayerJoinListener;
 import dev.qrowned.punish.common.event.listener.NetworkPlayerQuitListener;
 import dev.qrowned.punish.common.punish.CommonPunishmentHandler;
 import dev.qrowned.punish.common.punish.PunishmentDataHandler;
@@ -19,6 +21,7 @@ import dev.qrowned.punish.common.user.AbstractPunishUserHandler;
 import dev.qrowned.punish.common.user.PunishUserDataHandler;
 import dev.qrowned.punish.common.util.DataTableCreationUtil;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
@@ -26,6 +29,8 @@ import java.io.File;
 public abstract class AbstractPunishPlugin implements PunishPlugin {
 
     protected static final String PUNISH_FOLDER_PATH = "./plugins/SupremePunish/";
+
+    protected Platform platform;
 
     protected JsonConfigDataSource dataSource;
     protected CommonPubSubProvider pubSubProvider;
@@ -38,6 +43,10 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
     protected PunishmentDataHandler punishmentDataHandler;
 
     protected final ConfigProvider configProvider = new CommonConfigProvider();
+
+    public AbstractPunishPlugin(@NotNull Platform platform) {
+        this.platform = platform;
+    }
 
     public void load() {
         // register configs
@@ -82,7 +91,10 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
     }
 
     public void registerPluginListener() {
-        this.eventHandler.registerEventAdapter(new NetworkPlayerQuitListener(this.punishUserDataHandler));
+        this.eventHandler.registerEventAdapter(
+                new NetworkPlayerQuitListener(this, this.punishUserDataHandler),
+                new NetworkPlayerJoinListener(this)
+        );
     }
 
     public void registerHandler() {

@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Unmodifiable;
 
 import java.time.Instant;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -13,9 +14,7 @@ public interface Platform {
 
     @NotNull Platform.Type getType();
 
-    @NonNull @Unmodifiable Set<UUID> getUniqueConnections();
-
-    @NonNull @Unmodifiable Collection<String> getKnownPermissions();
+    @NonNull List<UUID> getUniqueConnections();
 
     @NonNull Instant getStartTime();
 
