@@ -3,7 +3,7 @@
     {
       "id": "hacking",
       "displayName": "Hacking",
-      "duration": 30,
+      "minDuration": 30,
       "durationTimeUnit": "DAYS",
       "type": "BAN",
       "aliases": [
@@ -14,7 +14,7 @@
     {
       "id": "insult",
       "displayName": "Insult",
-      "duration": 3,
+      "minDuration": 3,
       "durationTimeUnit": "HOURS",
       "type": "MUTE",
       "aliases": [
@@ -24,7 +24,7 @@
     {
       "id": "bug",
       "displayName": "Bugusing",
-      "duration": 0,
+      "minDuration": -1,
       "durationTimeUnit": "DAYS",
       "type": "KICK",
       "aliases": [

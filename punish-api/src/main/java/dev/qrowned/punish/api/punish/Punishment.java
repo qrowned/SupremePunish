@@ -29,12 +29,20 @@ public class Punishment implements Serializable {
     public Punishment(@NotNull UUID target,
                       @NotNull UUID executor,
                       @NotNull PunishmentReason punishmentReason) {
+        this(target, executor, punishmentReason.getType(), punishmentReason.getDuration(), punishmentReason.getId());
+    }
+
+    public Punishment(@NotNull UUID target,
+                      @NotNull UUID executor,
+                      @NotNull Type type,
+                      @NotNull Long duration,
+                      @NotNull String reason) {
         this.target = target;
         this.executor = executor;
-        this.type = punishmentReason.getType();
+        this.type = type;
+        this.duration = duration;
+        this.reason = reason;
         this.executionTime = System.currentTimeMillis();
-        this.duration = punishmentReason.getDuration();
-        this.reason = punishmentReason.getId();
     }
 
     public boolean isActive() {

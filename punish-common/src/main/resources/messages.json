@@ -149,6 +149,45 @@
       "message": [
         "%prefix% §cThis player is not online!"
       ]
+    },
+    {
+      "id": "punish.history.header",
+      "message": [
+        "%prefix% Punish history of §6%name% §8(§7Page %page%§7)",
+        "%prefix% §e§oDuration §8| §7§oExecutor",
+        "%prefix% §c§oType §8> §7§oReason",
+        "§f"
+      ]
+    },
+    {
+      "id": "punish.history.entry",
+      "message": [
+        "%prefix% §8[§e%date%§8]",
+        "%prefix% §e%duration% §8| §7%executor%",
+        "%prefix% §c%type% §8> §7§o%reason%",
+        "§7"
+      ]
+    },
+    {
+      "id": "punish.history.entry.pardon",
+      "message": [
+        "%prefix% §7§m[§e§m%date%§8§m]§7 (§e%pardonDate%§7)",
+        "%prefix% §e%duration% §8| §c§m%executor%§7 (%pardonExecutor%§7)",
+        "%prefix% §c%type% §8> §c§o§m%reason%§7 (§o%pardonReason%§7)",
+        "§7"
+      ]
+    },
+    {
+      "id": "punish.history.footer",
+      "message":[
+        "%prefix% There are §6%remaining% §7remaining punishments."
+      ]
+    },
+    {
+      "id": "punish.history.noPunishments",
+      "message": [
+        "%prefix% §cThis player has no punishments!"
+      ]
     }
   ]
 }
