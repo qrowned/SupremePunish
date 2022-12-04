@@ -51,9 +51,9 @@ public final class CommonPunishmentHandler implements PunishmentHandler {
                             Punishment punishmentDraft = new Punishment(
                                     target, executor,
                                     punishmentReason.getType(),
-                                    punishmentReason.getDuration(punishments.stream()
+                                    punishmentReason.isConfigured() ? punishmentReason.getDuration(punishments.stream()
                                             .filter(punishment1 -> punishment1.getReason().equals(punishmentReason.getId())).count()
-                                    ),
+                                    ) : punishmentReason.getDuration(),
                                     punishmentReason.getId()
                             );
                             return this.punishmentDataHandler.insertDataWithReturn(punishmentDraft).thenApplyAsync(createdPunishment -> {
