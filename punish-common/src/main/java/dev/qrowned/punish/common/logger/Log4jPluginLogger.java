@@ -1,15 +1,13 @@
 package dev.qrowned.punish.common.logger;
 
 import dev.qrowned.punish.api.logger.PluginLogger;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.Logger;
 
+@RequiredArgsConstructor
 public final class Log4jPluginLogger implements PluginLogger {
 
     private final Logger logger;
-
-    public Log4jPluginLogger(Logger logger) {
-        this.logger = logger;
-    }
 
     @Override
     public void info(String s) {
