@@ -45,10 +45,10 @@ public abstract class AbstractPunishInfoCommand<P> extends AbstractPunishCommand
                     "%uuid%", target.toString(),
                     "%banned%", ban == null
                             ? "§bNo"
-                            : "§bYes (" + this.getReason(ban.getReason()) + " | " + DurationFormatter.formatPunishDuration(ban.getRemainingDuration()) + ")",
+                            : "§bYes (" + this.getReason(ban.getReason()) + " | " + DurationFormatter.formatPunishDuration(ban.getRemainingDuration()) + "§b)",
                     "%muted%", mute == null
                             ? "§bNo"
-                            : "§bYes (" + this.getReason(mute.getReason()) + " | " + DurationFormatter.formatPunishDuration(mute.getRemainingDuration()) + ")"
+                            : "§bYes (" + this.getReason(mute.getReason()) + " | " + DurationFormatter.formatPunishDuration(mute.getRemainingDuration()) + "§b)"
             );
         });
 

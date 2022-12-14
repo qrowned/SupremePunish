@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -22,8 +23,9 @@ public final class CommonPunishmentHandler implements PunishmentHandler {
     private final EventHandler eventHandler;
     private final PunishmentsConfig punishmentsConfig;
     private final PunishUserHandler punishUserHandler;
-    private final MetricsCompact.MetricsBase metricsBase;
     private final PunishmentDataHandler punishmentDataHandler;
+
+    private final List<Punishment> recentPunishments = new CopyOnWriteArrayList<>();
 
     public CommonPunishmentHandler(EventHandler eventHandler,
                                    PunishmentsConfig punishmentsConfig,
@@ -33,23 +35,21 @@ public final class CommonPunishmentHandler implements PunishmentHandler {
         this.eventHandler = eventHandler;
         this.punishmentsConfig = punishmentsConfig;
         this.punishUserHandler = punishUserHandler;
-        this.metricsBase = metricsBase;
         this.punishmentDataHandler = punishmentDataHandler;
 
-        metricsBase.addCustomChart(new MetricsCompact.AdvancedPie("punishment_types", () -> {
-            HashMap<String, Integer> returnValue = new HashMap<>();
-
-            List<Punishment> punishments = punishmentDataHandler.fetchAllPunishments().get(5, TimeUnit.SECONDS);
-            Map<String, List<Punishment>> collect = punishments.stream().collect(Collectors.groupingBy(punishment -> punishment.getType().toString()));
-            collect.forEach((s, punishments1) -> returnValue.put(s, punishments1.size()));
-
-            return returnValue;
+        /*
+        metricsBase.addCustomChart(new MetricsCompact.MultiLineChart("recent_punishments", () -> {
+            HashMap<String, Integer> value = new HashMap<>();
+            this.recentPunishments.stream().collect(Collectors.groupingBy(punishment -> punishment.getType().toString()))
+                    .forEach((s, punishments) -> value.put(s, punishments.size()));
+            this.recentPunishments.clear();
+            return value;
         }));
-
-        metricsBase.addCustomChart(new MetricsCompact.SingleLineChart("active_punishments", () -> {
-            return Math.toIntExact(punishmentDataHandler.fetchAllPunishments().get(5, TimeUnit.SECONDS).stream()
-                    .filter(Punishment::isActive)
-                    .count());
+        */
+        metricsBase.addCustomChart(new MetricsCompact.SingleLineChart("recent_punishments", () -> {
+            int size = this.recentPunishments.size();
+            this.recentPunishments.clear();
+            return size;
         }));
     }
 
@@ -84,6 +84,7 @@ public final class CommonPunishmentHandler implements PunishmentHandler {
                             return this.punishmentDataHandler.insertDataWithReturn(punishmentDraft).thenApplyAsync(createdPunishment -> {
                                 if (createdPunishment == null) return new PunishResult<>("internalError");
 
+                                this.recentPunishments.add(createdPunishment);
                                 this.eventHandler.call(new PlayerPunishEvent(target, executor, createdPunishment, punishmentReason));
                                 return new PunishResult<>(createdPunishment);
                             });
