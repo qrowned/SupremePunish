@@ -3,30 +3,55 @@ package dev.qrowned.punish.common.punish;
 import dev.qrowned.punish.api.event.EventHandler;
 import dev.qrowned.punish.api.event.impl.PlayerPardonEvent;
 import dev.qrowned.punish.api.event.impl.PlayerPunishEvent;
+import dev.qrowned.punish.api.metrics.MetricsCompact;
 import dev.qrowned.punish.api.punish.Punishment;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.punish.PunishmentReason;
 import dev.qrowned.punish.api.result.PunishResult;
 import dev.qrowned.punish.api.user.PunishUserHandler;
 import dev.qrowned.punish.common.config.impl.PunishmentsConfig;
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 public final class CommonPunishmentHandler implements PunishmentHandler {
 
     private final EventHandler eventHandler;
     private final PunishmentsConfig punishmentsConfig;
     private final PunishUserHandler punishUserHandler;
+    private final MetricsCompact.MetricsBase metricsBase;
     private final PunishmentDataHandler punishmentDataHandler;
+
+    public CommonPunishmentHandler(EventHandler eventHandler,
+                                   PunishmentsConfig punishmentsConfig,
+                                   PunishUserHandler punishUserHandler,
+                                   MetricsCompact.MetricsBase metricsBase,
+                                   PunishmentDataHandler punishmentDataHandler) {
+        this.eventHandler = eventHandler;
+        this.punishmentsConfig = punishmentsConfig;
+        this.punishUserHandler = punishUserHandler;
+        this.metricsBase = metricsBase;
+        this.punishmentDataHandler = punishmentDataHandler;
+
+        metricsBase.addCustomChart(new MetricsCompact.AdvancedPie("punishment_types", () -> {
+            HashMap<String, Integer> returnValue = new HashMap<>();
+
+            List<Punishment> punishments = punishmentDataHandler.fetchAllPunishments().get(5, TimeUnit.SECONDS);
+            Map<String, List<Punishment>> collect = punishments.stream().collect(Collectors.groupingBy(punishment -> punishment.getType().toString()));
+            collect.forEach((s, punishments1) -> returnValue.put(s, punishments1.size()));
+
+            return returnValue;
+        }));
+
+        metricsBase.addCustomChart(new MetricsCompact.SingleLineChart("active_punishments", () -> {
+            return Math.toIntExact(punishmentDataHandler.fetchAllPunishments().get(5, TimeUnit.SECONDS).stream()
+                    .filter(Punishment::isActive)
+                    .count());
+        }));
+    }
 
     @Override
     public CompletableFuture<PunishResult<Punishment>> punish(@NotNull UUID target, @NotNull UUID executor, @NotNull Punishment.Type type, @NotNull String reason, long duration) {

@@ -8,6 +8,7 @@ import dev.qrowned.punish.api.database.AbstractDataSource;
 import dev.qrowned.punish.api.event.EventHandler;
 import dev.qrowned.punish.api.logger.PluginLogger;
 import dev.qrowned.punish.api.message.MessageHandler;
+import dev.qrowned.punish.api.metrics.MetricsCompact;
 import dev.qrowned.punish.api.platform.Platform;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.PunishUserHandler;
@@ -36,5 +37,7 @@ public interface PunishPlugin {
     @NotNull CommandHandler<?> getCommandHandler();
 
     @NotNull MessageHandler<?> getMessageHandler();
+
+    @NotNull MetricsCompact.MetricsBase getMetricsBase();
 
 }

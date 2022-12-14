@@ -1,6 +1,5 @@
 package dev.qrowned.punish.velocity.bootstrap;
 
-import com.velocitypowered.api.proxy.ProxyServer;
 import dev.qrowned.license.api.data.LicenseData;
 import dev.qrowned.license.api.exception.LicenseInvalidException;
 import dev.qrowned.punish.api.bootstrap.LoaderBootstrap;
@@ -11,26 +10,27 @@ import dev.qrowned.punish.common.config.impl.LicenseConfig;
 import dev.qrowned.punish.common.logger.SLF4JPlugginLogger;
 import dev.qrowned.punish.common.util.LicenseCheckerUtil;
 import dev.qrowned.punish.velocity.PunishVelocityPlugin;
+import dev.qrowned.punish.velocity.loader.PunishVelocityLoader;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
 
 import java.time.Instant;
 
+@Getter
 public final class PunishVelocityBootstrap implements PunishBootstrap, LoaderBootstrap {
 
-    @Getter
-    private final ProxyServer server;
-    private final PunishVelocityPlugin plugin;
+    private final PunishVelocityLoader loader;
 
     private final PluginLogger pluginLogger;
+    private final PunishVelocityPlugin plugin;
+
     private Instant startupTime;
 
-    public PunishVelocityBootstrap(@NotNull ProxyServer server, @NotNull Logger logger) {
-        this.server = server;
+    public PunishVelocityBootstrap(@NotNull PunishVelocityLoader loader) {
+        this.loader = loader;
+        this.pluginLogger = new SLF4JPlugginLogger(loader.getLogger());
         this.plugin = new PunishVelocityPlugin(this);
-        this.pluginLogger = new SLF4JPlugginLogger(logger);
     }
 
     @Override
@@ -63,12 +63,12 @@ public final class PunishVelocityBootstrap implements PunishBootstrap, LoaderBoo
 
     @Override
     public String getVersion() {
-        return this.server.getPluginManager().getPlugin("supremepunish").orElseThrow().getDescription().getVersion().orElseThrow();
+        return this.loader.getProxyServer().getPluginManager().getPlugin("supremepunish").orElseThrow().getDescription().getVersion().orElseThrow();
     }
 
     @Override
     public String getServerVersion() {
-        return this.server.getVersion().getVersion();
+        return this.loader.getProxyServer().getVersion().getVersion();
     }
 
     @Override
