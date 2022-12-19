@@ -2,12 +2,10 @@ package dev.qrowned.punish.common.logger;
 
 import dev.qrowned.punish.api.logger.PluginLogger;
 import lombok.RequiredArgsConstructor;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 
 @RequiredArgsConstructor
-public final class JavaPluginLogger implements PluginLogger {
+public final class SLF4JPlugginLogger implements PluginLogger {
 
     private final Logger logger;
 
@@ -18,21 +16,22 @@ public final class JavaPluginLogger implements PluginLogger {
 
     @Override
     public void warn(String s) {
-        this.logger.warning(s);
+        this.logger.warn(s);
     }
 
     @Override
     public void warn(String s, Throwable t) {
-        this.logger.log(Level.WARNING, s, t);
+        this.logger.warn(s, t);
     }
 
     @Override
     public void severe(String s) {
-        this.logger.severe(s);
+        this.logger.error(s);
     }
 
     @Override
     public void severe(String s, Throwable t) {
-        this.logger.log(Level.SEVERE, s, t);
+        this.logger.error(s, t);
     }
+
 }

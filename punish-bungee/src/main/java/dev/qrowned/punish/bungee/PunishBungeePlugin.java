@@ -1,5 +1,6 @@
 package dev.qrowned.punish.bungee;
 
+import dev.qrowned.punish.api.metrics.MetricsCompact;
 import dev.qrowned.punish.bungee.bootstrap.PunishBungeeBootstrap;
 import dev.qrowned.punish.bungee.command.BungeeCommandHandler;
 import dev.qrowned.punish.bungee.command.impl.*;
@@ -9,6 +10,7 @@ import dev.qrowned.punish.bungee.listener.punish.BungeePardonListener;
 import dev.qrowned.punish.bungee.listener.punish.BungeePunishListener;
 import dev.qrowned.punish.bungee.message.BungeeMessageConfig;
 import dev.qrowned.punish.bungee.message.BungeeMessageHandler;
+import dev.qrowned.punish.bungee.metrics.BungeeMetrics;
 import dev.qrowned.punish.bungee.user.BungeePunishUserHandler;
 import dev.qrowned.punish.bungee.user.transformer.BungeePunishUserTransformer;
 import dev.qrowned.punish.common.AbstractPunishPlugin;
@@ -24,6 +26,7 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
 
     private final PunishBungeeBootstrap bootstrap;
 
+    private MetricsCompact.MetricsBase metricsBase;
     private BungeeCommandHandler commandHandler;
     private BungeeMessageHandler messageHandler;
 
@@ -45,6 +48,8 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
         super.punishUserDataHandler = new PunishUserDataHandler(super.dataSource, new BungeePunishUserTransformer());
         super.userHandler = new BungeePunishUserHandler(super.punishUserDataHandler);
 
+        this.metricsBase = new BungeeMetrics(this.bootstrap.getLoader(), 17070).getMetricsBase();
+
         super.registerHandler();
     }
 
@@ -60,7 +65,7 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
         this.commandHandler = new BungeeCommandHandler(this.bootstrap.getLoader());
         this.commandHandler.registerCommands(
                 new BanCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
-                new ReloadCommand(super.configProvider, this.messageHandler, super.punishUserDataHandler, super.punishmentDataHandler),
+                new PunishCommand(super.configProvider, this.messageHandler, super.punishUserDataHandler, super.punishmentDataHandler),
                 new UnbanCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
                 new MuteCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
                 new UnmuteCommand(this.messageHandler, super.userHandler, super.punishmentHandler),

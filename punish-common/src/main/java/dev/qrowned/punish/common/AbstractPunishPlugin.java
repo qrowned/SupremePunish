@@ -105,6 +105,7 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
                 this.eventHandler,
                 this.configProvider.getConfig("punishments", PunishmentsConfig.class),
                 this.userHandler,
+                this.getMetricsBase(),
                 this.punishmentDataHandler
         );
     }

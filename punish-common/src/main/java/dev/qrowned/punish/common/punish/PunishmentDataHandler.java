@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.sql.*;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -20,6 +21,7 @@ public final class PunishmentDataHandler extends AbstractAllDataHandler<UUID, Pu
     private static final PunishmentTransformer PUNISHMENT_TRANSFORMER = new PunishmentTransformer();
 
     private static final String FETCH_STATEMENT = "select * from punishments where target = ?;";
+    private static final String FETCH_ALL_STATEMENT = "select * from punishments;";
     private static final String INSERT_STATEMENT = "insert into punishments(type, target, executor, reason, executionTime, duration) values(?, ?, ?, ?, ?, ?);";
     private static final String UPDATE_STATEMENT = "update punishments set pardonExecutionTime = current_timestamp, pardonExecutor = ?, pardonReason = ? where id = ?;";
 
@@ -46,6 +48,11 @@ public final class PunishmentDataHandler extends AbstractAllDataHandler<UUID, Pu
     @Override
     public void insertData(@NotNull UUID uuid, @NotNull Punishment punishment) {
         this.insertDataWithReturn(punishment);
+    }
+
+    public CompletableFuture<List<Punishment>> fetchAllPunishments() {
+        PreparedStatement preparedStatement = super.abstractDataSource.prepare(FETCH_ALL_STATEMENT);
+        return super.abstractDataSource.queryAll(preparedStatement, PUNISHMENT_TRANSFORMER);
     }
 
     @SneakyThrows
