@@ -23,6 +23,6 @@ public @interface SubCommand {
 
     int sortingId() default 1;
 
-    String[] aliases();
+    String[] aliases() default {};
 
 }

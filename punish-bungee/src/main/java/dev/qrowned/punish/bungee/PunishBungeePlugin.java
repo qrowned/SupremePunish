@@ -65,7 +65,7 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
         this.commandHandler = new BungeeCommandHandler(this.bootstrap.getLoader());
         this.commandHandler.registerCommands(
                 new BanCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
-                new ReloadCommand(super.configProvider, this.messageHandler, super.punishUserDataHandler, super.punishmentDataHandler),
+                new PunishCommand(super.configProvider, this.messageHandler, super.punishUserDataHandler, super.punishmentDataHandler),
                 new UnbanCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
                 new MuteCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
                 new UnmuteCommand(this.messageHandler, super.userHandler, super.punishmentHandler),

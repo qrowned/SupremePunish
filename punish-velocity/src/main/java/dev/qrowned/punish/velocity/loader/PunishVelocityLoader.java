@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 
 import java.nio.file.Path;
 
-@Plugin(authors = "qrowned", version = "1.0.0", id = "supremepunish")
+@Plugin(authors = "qrowned", version = "1.0.0", id = "supremepunish", name = "SupremePunish")
 public class PunishVelocityLoader {
 
     private final LoaderBootstrap loaderBootstrap;

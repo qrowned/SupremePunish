@@ -8,7 +8,7 @@ import net.md_5.bungee.api.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
-public class BungeeCommandHandler extends AbstractCommandHandler<CommandSender> {
+public final class BungeeCommandHandler extends AbstractCommandHandler<CommandSender> {
 
     private final Plugin plugin;
 
