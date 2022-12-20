@@ -1,3 +1,10 @@
 language: java
 jdk: oraclejdk17
 
+deploy:
+  provider: packagecloud
+  username: qrowned
+  token:
+    secure: hVoQYXfKBXUuXcihxCBy9xuQX0d1dobeZHaRK56NErJdSjw8LZ6TNghE3BtGakmT9PqiZxX0B97VTksV751pWoVReDSAV7Nq5Fwn+3neyG4yuOmTvA8BwKwyz/2n/04WB5AFLnsXgP2FH1gqy3LqoqmMyk+ResQtk7G52zqOvEu9OtdzY+bXf4Gk7IwOPegB8SPpFOIbmK208j8DXrk4KuW2HRQJuRdGrszBHSzzOKR9q0tujC+OlAMK0l/OAkR7c443bfyikngRGIJCRmIvTuJRNECWnAh+2b/YRynZMvqRxghU4wcsYpschv+y+M8rHuBc66eFUey1S2KMjKfSCD7epQj4a6FXxPXUMR+Zf2XZu6x++6rmrIQk1LKXqFz2kjGgFMoFs7nF6H7xHnZUHYfu55xPkDuhiVLPRDSBWY9QwJPKBQyCMudrYxQ7sjUuuVuccwo+GO6sFJXipLdBmPKRS69Yw4jCzl8MEjQqyjYVLt/3bWwS+d3FGP6jq1/sST+dFvoCq+w+oTrTQbgJmEExiFzlrjGegU1VGG81tsmxUtXI5IaK6MtxdZHvaWElkNhq93ZzGIYCymJpyMabS7If2Zub1U5nDtfkCrLFvvz0oTQm2lXqrkZO5KYJA+lCgVkvHy1ZnqaIormHiAuSeNyFRL2WI7iz/mcAjRjer2Q=
+  repository: qrowned/releases
+  edge: true

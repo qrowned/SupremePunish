@@ -21,6 +21,20 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+    <distributionManagement>
+        <repository>
+            <id>packagecloud-qrowned</id>
+            <url>packagecloud+https://packagecloud.io/qrowned/releases</url>
+        </repository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>qrowned-releases</id>
+            <url>https://packagecloud.io/qrowned/releases/maven2</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -54,5 +68,15 @@
             <version>2.11.0</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>io.packagecloud.maven.wagon</groupId>
+                <artifactId>maven-packagecloud-wagon</artifactId>
+                <version>0.0.4</version>
+            </extension>
+        </extensions>
+    </build>
 
 </project>
