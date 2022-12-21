@@ -155,7 +155,7 @@
       "message": [
         "%prefix% Punish history of §6%name% §8(§7Page %page%§7)",
         "%prefix% §e§oDuration §8| §7§oExecutor",
-        "%prefix% §c§oType §8> §7§oReason",
+        "%prefix% §c§oType §8> §7§oReason §e§oEvidence",
         "§f"
       ]
     },
@@ -164,7 +164,7 @@
       "message": [
         "%prefix% §8[§e%date%§8]",
         "%prefix% §e%duration% §8| §7%executor%",
-        "%prefix% §c%type% §8> §7§o%reason%",
+        "%prefix% §c%type% §8> §7§o%reason% %evidence%",
         "§7"
       ]
     },
@@ -173,7 +173,7 @@
       "message": [
         "%prefix% §7§m[§e§m%date%§8§m]§7 (§e%pardonDate%§7)",
         "%prefix% §e%duration% §8| §c§m%executor%§7 (%pardonExecutor%§7)",
-        "%prefix% §c%type% §8> §c§o§m%reason%§7 (§o%pardonReason%§7)",
+        "%prefix% §c%type% §8> §c§o§m%reason%§7 (§o%pardonReason%§7) %evidence%",
         "§7"
       ]
     },
