@@ -7,7 +7,7 @@
     <groupId>dev.qrowned.punish</groupId>
     <artifactId>punish-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>${revision}</version>
 
     <modules>
         <module>punish-api</module>
@@ -17,6 +17,7 @@
     </modules>
 
     <properties>
+        <revision>1.0.1-SNAPSHOT</revision>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
@@ -26,6 +27,10 @@
             <id>packagecloud-qrowned</id>
             <url>packagecloud+https://packagecloud.io/qrowned/releases</url>
         </repository>
+        <snapshotRepository>
+            <id>packagecloud-qrowned</id>
+            <url>packagecloud+https://packagecloud.io/qrowned/snapshots</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <repositories>
