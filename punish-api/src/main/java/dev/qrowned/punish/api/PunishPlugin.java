@@ -40,4 +40,6 @@ public interface PunishPlugin {
 
     @NotNull MetricsCompact.MetricsBase getMetricsBase();
 
+    boolean isChatLogAvailable();
+
 }

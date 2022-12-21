@@ -1,5 +1,6 @@
 package dev.qrowned.punish.bungee;
 
+import dev.qrowned.chatlog.api.ChatLogApi;
 import dev.qrowned.punish.api.metrics.MetricsCompact;
 import dev.qrowned.punish.bungee.bootstrap.PunishBungeeBootstrap;
 import dev.qrowned.punish.bungee.command.BungeeCommandHandler;
@@ -20,6 +21,7 @@ import net.md_5.bungee.api.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.Optional;
 
 @Getter
 public final class PunishBungeePlugin extends AbstractPunishPlugin {
@@ -83,5 +85,15 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
                 new BungeePunishListener(this.messageHandler, super.userHandler, super.punishmentDataHandler),
                 new BungeePardonListener(this.messageHandler, super.userHandler, super.punishmentDataHandler)
         );
+    }
+
+    @Override
+    public Optional<ChatLogApi> getChatLogApi() {
+        return Optional.ofNullable(this.chatLogApi);
+    }
+
+    @Override
+    public boolean isChatLogAvailable() {
+        return this.bootstrap.getProxy().getPluginManager().getPlugin("Chatlog") != null;
     }
 }

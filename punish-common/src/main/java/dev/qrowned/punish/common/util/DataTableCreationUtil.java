@@ -29,6 +29,7 @@ public final class DataTableCreationUtil {
             "    target              varchar(36)                           not null, " +
             "    executor            varchar(36)                           not null, " +
             "    reason              varchar(50)                           not null, " +
+            "    evidence            varchar(15)                           null," +
             "    executionTime       timestamp default current_timestamp() not null, " +
             "    duration            bigint                                not null, " +
             "    pardonExecutor      varchar(36)                           null, " +

@@ -73,7 +73,8 @@ public abstract class AbstractHistoryCommand<P> extends AbstractPunishCommand<P>
                                 "%reason%", punishmentReason == null ? punishment.getReason() : punishmentReason.getDisplayName(),
                                 "%pardonReason%", punishment.getPardonReason(),
                                 "%pardonExecutor%", pardonPunishUser.getName(),
-                                "%pardonDate%", SIMPLE_DATE_FORMAT.format(punishment.getPardonExecutionTime()));
+                                "%pardonDate%", SIMPLE_DATE_FORMAT.format(punishment.getPardonExecutionTime()),
+                                "%evidence%", punishment.getEvidence().isEmpty() ? "" : "§7[§e§l" + punishment.getEvidence().get() + "§7]");
                     } else {
                         this.messageHandler.getMessage("punish.history.entry").send(sender,
                                 "%date%", SIMPLE_DATE_FORMAT.format(punishment.getExecutionTime()),
@@ -81,7 +82,8 @@ public abstract class AbstractHistoryCommand<P> extends AbstractPunishCommand<P>
                                 "%duration%", DurationFormatter.formatPunishDuration(punishment.getDuration()),
                                 "%executor%", executorPunishUser.getName(),
                                 "%type%", punishment.getType().name(),
-                                "%reason%", punishmentReason == null ? punishment.getReason() : punishmentReason.getDisplayName());
+                                "%reason%", punishmentReason == null ? punishment.getReason() : punishmentReason.getDisplayName(),
+                                "%evidence%", punishment.getEvidence().isEmpty() ? "" : "§7[§e§l" + punishment.getEvidence().get() + "§7]");
                     }
                 });
 

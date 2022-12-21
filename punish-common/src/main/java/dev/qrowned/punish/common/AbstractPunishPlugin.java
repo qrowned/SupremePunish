@@ -1,5 +1,8 @@
 package dev.qrowned.punish.common;
 
+import dev.qrowned.chatlog.api.ChatLogApi;
+import dev.qrowned.chatlog.api.ChatLogApiProvider;
+import dev.qrowned.chatlog.api.log.ChatLog;
 import dev.qrowned.punish.api.PunishApiProvider;
 import dev.qrowned.punish.api.PunishPlugin;
 import dev.qrowned.punish.api.config.ConfigProvider;
@@ -24,6 +27,7 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.Optional;
 
 @Getter
 public abstract class AbstractPunishPlugin implements PunishPlugin {
@@ -42,6 +46,8 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
     protected PunishUserDataHandler punishUserDataHandler;
     protected PunishmentDataHandler punishmentDataHandler;
 
+    protected ChatLogApi chatLogApi = null;
+
     protected final ConfigProvider configProvider = new CommonConfigProvider();
 
     public AbstractPunishPlugin(@NotNull Platform platform) {
@@ -57,6 +63,12 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
     }
 
     public void enable() {
+        // initialize chatlog addon
+        if (this.isChatLogAvailable()) {
+            this.getLogger().info("Recognized ChatLog Plugin is loaded! Activating chatlog addon...");
+            this.chatLogApi = ChatLogApiProvider.get();
+        }
+
         // initialize datasource and create tables
         this.dataSource = new JsonConfigDataSource(this.configProvider.getConfig("mysql", MySqlConfig.class));
         DataTableCreationUtil.createTables(this.dataSource);
@@ -103,11 +115,16 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
         this.punishmentDataHandler = new PunishmentDataHandler(this.dataSource);
         this.punishmentHandler = new CommonPunishmentHandler(
                 this.eventHandler,
+                this,
                 this.configProvider.getConfig("punishments", PunishmentsConfig.class),
                 this.userHandler,
                 this.getMetricsBase(),
                 this.punishmentDataHandler
         );
+    }
+
+    public Optional<ChatLogApi> getChatLogApi() {
+        return Optional.ofNullable(this.chatLogApi);
     }
 
 }

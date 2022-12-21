@@ -19,7 +19,6 @@ import dev.qrowned.punish.velocity.metrics.VelocityMetrics;
 import dev.qrowned.punish.velocity.user.VelocityPunishUserHandler;
 import dev.qrowned.punish.velocity.user.transformer.VelocityPunishUserTransformer;
 import lombok.Getter;
-import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -97,4 +96,10 @@ public final class PunishVelocityPlugin extends AbstractPunishPlugin {
                 new VelocityPardonListener(this.messageHandler, super.userHandler, super.punishmentDataHandler)
         );
     }
+
+    @Override
+    public boolean isChatLogAvailable() {
+        return server.getPluginManager().getPlugin("chatlog_velocity").isPresent();
+    }
+
 }

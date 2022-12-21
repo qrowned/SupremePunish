@@ -9,10 +9,14 @@ import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.punish.PunishmentReason;
 import dev.qrowned.punish.api.result.PunishResult;
 import dev.qrowned.punish.api.user.PunishUserHandler;
+import dev.qrowned.punish.common.AbstractPunishPlugin;
 import dev.qrowned.punish.common.config.impl.PunishmentsConfig;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
@@ -21,6 +25,7 @@ import java.util.stream.Collectors;
 public final class CommonPunishmentHandler implements PunishmentHandler {
 
     private final EventHandler eventHandler;
+    private final AbstractPunishPlugin punishPlugin;
     private final PunishmentsConfig punishmentsConfig;
     private final PunishUserHandler punishUserHandler;
     private final PunishmentDataHandler punishmentDataHandler;
@@ -28,11 +33,13 @@ public final class CommonPunishmentHandler implements PunishmentHandler {
     private final List<Punishment> recentPunishments = new CopyOnWriteArrayList<>();
 
     public CommonPunishmentHandler(EventHandler eventHandler,
+                                   AbstractPunishPlugin punishPlugin,
                                    PunishmentsConfig punishmentsConfig,
                                    PunishUserHandler punishUserHandler,
                                    MetricsCompact.MetricsBase metricsBase,
                                    PunishmentDataHandler punishmentDataHandler) {
         this.eventHandler = eventHandler;
+        this.punishPlugin = punishPlugin;
         this.punishmentsConfig = punishmentsConfig;
         this.punishUserHandler = punishUserHandler;
         this.punishmentDataHandler = punishmentDataHandler;
@@ -79,7 +86,10 @@ public final class CommonPunishmentHandler implements PunishmentHandler {
                                     punishmentReason.isConfigured() ? punishmentReason.getDuration(punishments.stream()
                                             .filter(punishment1 -> punishment1.getReason().equals(punishmentReason.getId())).count()
                                     ) : punishmentReason.getDuration(),
-                                    punishmentReason.getId()
+                                    punishmentReason.getId(),
+                                    punishmentReason.getType().equals(Punishment.Type.MUTE) && this.punishPlugin.getChatLogApi().isPresent()
+                                            ? this.punishPlugin.getChatLogApi().get().getChatLogHandler().createChatLog(target, executor).join().id()
+                                            : null
                             );
                             return this.punishmentDataHandler.insertDataWithReturn(punishmentDraft).thenApplyAsync(createdPunishment -> {
                                 if (createdPunishment == null) return new PunishResult<>("internalError");
