@@ -27,6 +27,7 @@ public final class PunishmentTransformer implements DataTransformer<Punishment> 
                 resultSet.getTimestamp("executionTime").getTime(),
                 resultSet.getLong("duration"),
                 resultSet.getString("reason"),
+                resultSet.getString("evidence"),
                 pardonExecutor == null ? null : UUID.fromString(pardonExecutor),
                 pardonExecutionTime == null ? null : pardonExecutionTime.getTime(),
                 resultSet.getString("pardonReason")

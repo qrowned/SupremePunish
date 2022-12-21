@@ -2,6 +2,7 @@ package dev.qrowned.punish.bungee.command.impl;
 
 import dev.qrowned.punish.api.command.AbstractPunishCommand;
 import dev.qrowned.punish.api.command.annotation.Command;
+import dev.qrowned.punish.api.command.annotation.SubCommand;
 import dev.qrowned.punish.api.config.ConfigProvider;
 import dev.qrowned.punish.api.user.AbstractPunishUser;
 import dev.qrowned.punish.bungee.message.BungeeMessageHandler;
@@ -44,6 +45,7 @@ public final class PunishCommand extends AbstractPunishCommand<CommandSender> {
         return player instanceof ProxiedPlayer proxiedPlayer ? proxiedPlayer.getUniqueId() : AbstractPunishUser.CONSOLE_UUID;
     }
 
+    @SubCommand(name = "reload", permission = "supremepunish.reload", boundToClass = PunishCommand.class)
     public static class PunishReloadSubCommand extends AbstractReloadSubCommand<CommandSender> {
 
         public PunishReloadSubCommand(ConfigProvider configProvider,

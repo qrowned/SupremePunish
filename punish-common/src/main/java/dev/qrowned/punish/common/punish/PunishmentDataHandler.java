@@ -22,7 +22,7 @@ public final class PunishmentDataHandler extends AbstractAllDataHandler<UUID, Pu
 
     private static final String FETCH_STATEMENT = "select * from punishments where target = ?;";
     private static final String FETCH_ALL_STATEMENT = "select * from punishments;";
-    private static final String INSERT_STATEMENT = "insert into punishments(type, target, executor, reason, executionTime, duration) values(?, ?, ?, ?, ?, ?);";
+    private static final String INSERT_STATEMENT = "insert into punishments(type, target, executor, reason, evidence, executionTime, duration) values(?, ?, ?, ?, ?, ?, ?);";
     private static final String UPDATE_STATEMENT = "update punishments set pardonExecutionTime = current_timestamp, pardonExecutor = ?, pardonReason = ? where id = ?;";
 
     public PunishmentDataHandler(@NotNull AbstractDataSource abstractDataSource) {
@@ -62,8 +62,9 @@ public final class PunishmentDataHandler extends AbstractAllDataHandler<UUID, Pu
         preparedStatement.setString(2, punishment.getTarget().toString());
         preparedStatement.setString(3, punishment.getExecutor().toString());
         preparedStatement.setString(4, punishment.getReason());
-        preparedStatement.setTimestamp(5, Timestamp.from(Instant.ofEpochMilli(punishment.getExecutionTime())));
-        preparedStatement.setLong(6, punishment.getDuration());
+        preparedStatement.setString(5, punishment.getEvidence().orElse(null));
+        preparedStatement.setTimestamp(6, Timestamp.from(Instant.ofEpochMilli(punishment.getExecutionTime())));
+        preparedStatement.setLong(7, punishment.getDuration());
 
         return CompletableFuture.supplyAsync(() -> {
             try {
