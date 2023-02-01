@@ -88,6 +88,7 @@ public final class CommonPunishmentHandler implements PunishmentHandler {
                                     ) : punishmentReason.getDuration(),
                                     punishmentReason.getId(),
                                     punishmentReason.getType().equals(Punishment.Type.MUTE) && this.punishPlugin.getChatLogApi().isPresent()
+                                            && this.punishPlugin.getChatLogApi().get().getChatLogHandler().hasMessages(target)
                                             ? this.punishPlugin.getChatLogApi().get().getChatLogHandler().createChatLog(target, executor).join().id()
                                             : null
                             );
