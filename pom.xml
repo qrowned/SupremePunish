@@ -7,36 +7,36 @@
     <groupId>dev.qrowned.punish</groupId>
     <artifactId>punish-parent</artifactId>
     <packaging>pom</packaging>
-    <version>${revision}</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <modules>
         <module>punish-api</module>
         <module>punish-common</module>
         <module>punish-bungee</module>
         <module>punish-velocity</module>
+        <module>punish-bukkit</module>
     </modules>
 
     <properties>
-        <revision>1.0.1-SNAPSHOT</revision>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
     <distributionManagement>
         <repository>
-            <id>packagecloud-qrowned</id>
-            <url>packagecloud+https://packagecloud.io/qrowned/releases</url>
+            <id>qrowned-snapshots</id>
+            <url>https://repo.qrowned.dev/repository/maven-snapshots/</url>
         </repository>
-        <snapshotRepository>
-            <id>packagecloud-qrowned</id>
-            <url>packagecloud+https://packagecloud.io/qrowned/snapshots</url>
-        </snapshotRepository>
     </distributionManagement>
 
     <repositories>
         <repository>
             <id>qrowned-releases</id>
-            <url>https://packagecloud.io/qrowned/releases/maven2</url>
+            <url>https://repo.qrowned.dev/repository/maven-releases/</url>
+        </repository>
+        <repository>
+            <id>qrowned-snapshots</id>
+            <url>https://repo.qrowned.dev/repository/maven-snapshots/</url>
         </repository>
     </repositories>
 
@@ -44,18 +44,18 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
+            <version>1.18.26</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>23.1.0</version>
+            <version>24.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.10</version>
+            <version>2.10.1</version>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
@@ -79,15 +79,5 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <extensions>
-            <extension>
-                <groupId>io.packagecloud.maven.wagon</groupId>
-                <artifactId>maven-packagecloud-wagon</artifactId>
-                <version>0.0.4</version>
-            </extension>
-        </extensions>
-    </build>
 
 </project>

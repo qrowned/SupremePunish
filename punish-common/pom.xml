@@ -5,7 +5,7 @@
     <parent>
         <artifactId>punish-parent</artifactId>
         <groupId>dev.qrowned.punish</groupId>
-        <version>${revision}</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>dev.qrowned.punish</groupId>
             <artifactId>punish-api</artifactId>
-            <version>${revision}</version>
+            <version>1.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

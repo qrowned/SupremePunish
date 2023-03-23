@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>punish-bungee</artifactId>
+    <artifactId>punish-bukkit</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -18,16 +18,16 @@
 
     <repositories>
         <repository>
-            <id>bungeecord-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>net.md-5</groupId>
-            <artifactId>bungeecord-api</artifactId>
-            <version>1.18-R0.1-SNAPSHOT</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.19.3-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -38,7 +38,7 @@
     </dependencies>
 
     <build>
-        <finalName>⚡ SUPREME PUNISH-v${project.version} BungeeCord ⚡</finalName>
+        <finalName>⚡ SUPREME PUNISH-v${project.version} Bukkit ⚡</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
