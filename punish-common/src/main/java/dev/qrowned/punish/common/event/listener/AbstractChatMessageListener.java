@@ -1,6 +1,6 @@
 package dev.qrowned.punish.common.event.listener;
 
-import dev.qrowned.punish.api.message.MessageHandler;
+import dev.qrowned.config.message.api.MessageService;
 import dev.qrowned.punish.api.punish.Punishment;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.punish.PunishmentReason;
@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public abstract class AbstractChatMessageListener<P> {
 
-    private final MessageHandler<P> messageHandler;
+    private final MessageService<P> messageService;
     private final PunishmentHandler punishmentHandler;
 
     public CompletableFuture<Boolean> checkMuteStatus(@NotNull UUID uuid, P sender) {
@@ -23,7 +23,7 @@ public abstract class AbstractChatMessageListener<P> {
 
             Punishment punishment = punishmentOptional.get();
             PunishmentReason punishmentReason = this.punishmentHandler.getPunishmentReason(punishment.getReason());
-            this.messageHandler.getMessage("punish.mute.screen").send(sender,
+            this.messageService.getMessage("punish.mute.screen").send(sender,
                     "%reason%", punishmentReason == null ? punishment.getReason() : punishmentReason.getDisplayName(),
                     "%id%", Integer.toString(punishment.getId()),
                     "%end%", DurationFormatter.formatPunishDuration(punishment.getRemainingDuration()));

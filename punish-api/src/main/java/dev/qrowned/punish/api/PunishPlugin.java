@@ -1,13 +1,13 @@
 package dev.qrowned.punish.api;
 
+import dev.qrowned.config.api.ConfigService;
+import dev.qrowned.config.message.api.MessageService;
 import dev.qrowned.punish.api.amqp.PubSubProvider;
 import dev.qrowned.punish.api.bootstrap.PunishBootstrap;
 import dev.qrowned.punish.api.command.CommandHandler;
-import dev.qrowned.punish.api.config.ConfigProvider;
 import dev.qrowned.punish.api.database.AbstractDataSource;
 import dev.qrowned.punish.api.event.EventHandler;
 import dev.qrowned.punish.api.logger.PluginLogger;
-import dev.qrowned.punish.api.message.MessageHandler;
 import dev.qrowned.punish.api.metrics.MetricsCompact;
 import dev.qrowned.punish.api.platform.Platform;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
@@ -24,7 +24,7 @@ public interface PunishPlugin {
 
     PluginLogger getLogger();
 
-    @NotNull ConfigProvider getConfigProvider();
+    @NotNull ConfigService getConfigService();
 
     @NotNull PunishUserHandler getUserHandler();
 
@@ -36,7 +36,7 @@ public interface PunishPlugin {
 
     @NotNull CommandHandler<?> getCommandHandler();
 
-    @NotNull MessageHandler<?> getMessageHandler();
+    @NotNull MessageService<?> getMessageService();
 
     @NotNull MetricsCompact.MetricsBase getMetricsBase();
 

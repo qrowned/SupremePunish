@@ -1,7 +1,7 @@
 package dev.qrowned.punish.bungee.listener;
 
+import dev.qrowned.config.message.bungee.BungeeMessageService;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
-import dev.qrowned.punish.bungee.message.BungeeMessageHandler;
 import dev.qrowned.punish.common.event.listener.AbstractChatMessageListener;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -13,9 +13,9 @@ import org.jetbrains.annotations.NotNull;
 
 public final class BungeeChatMessageListener extends AbstractChatMessageListener<CommandSender> implements Listener {
 
-    public BungeeChatMessageListener(@NotNull BungeeMessageHandler bungeeMessageHandler,
+    public BungeeChatMessageListener(@NotNull BungeeMessageService bungeeMessageService,
                                      @NotNull PunishmentHandler punishmentHandler) {
-        super(bungeeMessageHandler, punishmentHandler);
+        super(bungeeMessageService, punishmentHandler);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

@@ -4,7 +4,6 @@ import dev.qrowned.punish.api.PunishPlugin;
 import dev.qrowned.punish.api.event.EventAdapter;
 import dev.qrowned.punish.api.event.EventListener;
 import dev.qrowned.punish.api.event.impl.NetworkPlayerJoinEvent;
-import dev.qrowned.punish.common.AbstractPunishPlugin;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 

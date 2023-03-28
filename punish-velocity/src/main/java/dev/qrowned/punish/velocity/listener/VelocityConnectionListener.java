@@ -6,28 +6,27 @@ import com.velocitypowered.api.event.ResultedEvent;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.LoginEvent;
 import com.velocitypowered.api.proxy.Player;
-import dev.qrowned.punish.api.PunishPlugin;
+import dev.qrowned.config.message.velocity.VelocityConfigMessage;
+import dev.qrowned.config.message.velocity.VelocityMessageService;
 import dev.qrowned.punish.api.punish.Punishment;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.punish.PunishmentReason;
 import dev.qrowned.punish.common.event.listener.AbstractConnectionListener;
 import dev.qrowned.punish.common.util.DurationFormatter;
 import dev.qrowned.punish.velocity.PunishVelocityPlugin;
-import dev.qrowned.punish.velocity.message.VelocityConfigMessage;
-import dev.qrowned.punish.velocity.message.VelocityMessageHandler;
 import org.jetbrains.annotations.NotNull;
 
 public final class VelocityConnectionListener extends AbstractConnectionListener {
 
     private final PunishmentHandler punishmentHandler;
-    private final VelocityMessageHandler messageHandler;
+    private final VelocityMessageService messageService;
 
     public VelocityConnectionListener(@NotNull PunishVelocityPlugin plugin,
-                                    @NotNull PunishmentHandler punishmentHandler,
-                                    @NotNull VelocityMessageHandler messageHandler) {
+                                      @NotNull PunishmentHandler punishmentHandler,
+                                      @NotNull VelocityMessageService messageService) {
         super(plugin);
         this.punishmentHandler = punishmentHandler;
-        this.messageHandler = messageHandler;
+        this.messageService = messageService;
     }
 
     @Subscribe(order = PostOrder.FIRST)
@@ -40,7 +39,7 @@ public final class VelocityConnectionListener extends AbstractConnectionListener
                     Punishment punishment = punishmentOptional.get();
                     PunishmentReason punishmentReason = this.punishmentHandler.getPunishmentReason(punishment.getReason());
 
-                    VelocityConfigMessage banScreenMessage = (VelocityConfigMessage) this.messageHandler.getMessage("punish.ban.screen");
+                    VelocityConfigMessage banScreenMessage = (VelocityConfigMessage) this.messageService.getMessage("punish.ban.screen");
                     event.setResult(ResultedEvent.ComponentResult.denied(banScreenMessage.parseComponent(
                             "%reason%", punishmentReason == null ? punishment.getReason() : punishmentReason.getDisplayName(),
                             "%end%", DurationFormatter.formatPunishDuration(punishment.getRemainingDuration()),

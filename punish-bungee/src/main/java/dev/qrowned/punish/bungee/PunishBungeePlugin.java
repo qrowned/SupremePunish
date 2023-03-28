@@ -1,6 +1,8 @@
 package dev.qrowned.punish.bungee;
 
 import dev.qrowned.chatlog.api.ChatLogApi;
+import dev.qrowned.config.message.bungee.BungeeMessageService;
+import dev.qrowned.config.message.bungee.api.BungeeMessageApi;
 import dev.qrowned.punish.api.metrics.MetricsCompact;
 import dev.qrowned.punish.bungee.bootstrap.PunishBungeeBootstrap;
 import dev.qrowned.punish.bungee.command.BungeeCommandHandler;
@@ -9,8 +11,6 @@ import dev.qrowned.punish.bungee.listener.BungeeChatMessageListener;
 import dev.qrowned.punish.bungee.listener.BungeeConnectionListener;
 import dev.qrowned.punish.bungee.listener.punish.BungeePardonListener;
 import dev.qrowned.punish.bungee.listener.punish.BungeePunishListener;
-import dev.qrowned.punish.bungee.message.BungeeMessageConfig;
-import dev.qrowned.punish.bungee.message.BungeeMessageHandler;
 import dev.qrowned.punish.bungee.metrics.BungeeMetrics;
 import dev.qrowned.punish.bungee.user.BungeePunishUserHandler;
 import dev.qrowned.punish.bungee.user.transformer.BungeePunishUserTransformer;
@@ -20,7 +20,10 @@ import lombok.Getter;
 import net.md_5.bungee.api.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Optional;
 
 @Getter
@@ -30,7 +33,7 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
 
     private MetricsCompact.MetricsBase metricsBase;
     private BungeeCommandHandler commandHandler;
-    private BungeeMessageHandler messageHandler;
+    private BungeeMessageApi messageApi;
 
     public PunishBungeePlugin(@NotNull PunishBungeeBootstrap bootstrap) {
         super(new BungeeCordPlatform(bootstrap.getStartupTime()));
@@ -40,12 +43,11 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
     @Override
     public void load() {
         super.load();
-        super.configProvider.registerConfig("messages", new File(PUNISH_FOLDER_PATH, "messages.json"), BungeeMessageConfig.class);
     }
 
     @Override
     public void registerHandler() {
-        this.messageHandler = new BungeeMessageHandler(super.configProvider.getConfig("messages", BungeeMessageConfig.class));
+        this.messageApi = new BungeeMessageApi(super.configService);
 
         super.punishUserDataHandler = new PunishUserDataHandler(super.dataSource, new BungeePunishUserTransformer());
         super.userHandler = new BungeePunishUserHandler(super.punishUserDataHandler);
@@ -58,22 +60,22 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
     @Override
     protected void registerPlatformListener() {
         PluginManager pluginManager = this.bootstrap.getProxy().getPluginManager();
-        pluginManager.registerListener(this.bootstrap.getLoader(), new BungeeConnectionListener(this, super.punishmentHandler, this.messageHandler));
-        pluginManager.registerListener(this.bootstrap.getLoader(), new BungeeChatMessageListener(this.messageHandler, super.punishmentHandler));
+        pluginManager.registerListener(this.bootstrap.getLoader(), new BungeeConnectionListener(this, super.punishmentHandler, this.getMessageService()));
+        pluginManager.registerListener(this.bootstrap.getLoader(), new BungeeChatMessageListener(this.getMessageService(), super.punishmentHandler));
     }
 
     @Override
     protected void registerCommands() {
         this.commandHandler = new BungeeCommandHandler(this.bootstrap.getLoader());
         this.commandHandler.registerCommands(
-                new BanCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
-                new PunishCommand(super.configProvider, this.messageHandler, super.punishUserDataHandler, super.punishmentDataHandler),
-                new UnbanCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
-                new MuteCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
-                new UnmuteCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
-                new KickCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
-                new PunishInfoCommand(this.messageHandler, super.userHandler, super.punishmentHandler),
-                new HistoryCommand(super.userHandler, this.messageHandler, super.punishmentHandler)
+                new BanCommand(this.getMessageService(), super.userHandler, super.punishmentHandler),
+                new PunishCommand(super.configService, this.getMessageService(), super.punishUserDataHandler, super.punishmentDataHandler),
+                new UnbanCommand(this.getMessageService(), super.userHandler, super.punishmentHandler),
+                new MuteCommand(this.getMessageService(), super.userHandler, super.punishmentHandler),
+                new UnmuteCommand(this.getMessageService(), super.userHandler, super.punishmentHandler),
+                new KickCommand(this.getMessageService(), super.userHandler, super.punishmentHandler),
+                new PunishInfoCommand(this.getMessageService(), super.userHandler, super.punishmentHandler),
+                new HistoryCommand(super.userHandler, this.getMessageService(), super.punishmentHandler)
         );
     }
 
@@ -82,8 +84,8 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
         super.registerPluginListener();
 
         super.eventHandler.registerEventAdapter(
-                new BungeePunishListener(this.messageHandler, super.userHandler, super.punishmentDataHandler),
-                new BungeePardonListener(this.messageHandler, super.userHandler, super.punishmentDataHandler)
+                new BungeePunishListener(this.getMessageService(), super.userHandler, super.punishmentDataHandler),
+                new BungeePardonListener(this.getMessageService(), super.userHandler, super.punishmentDataHandler)
         );
     }
 
@@ -93,7 +95,13 @@ public final class PunishBungeePlugin extends AbstractPunishPlugin {
     }
 
     @Override
+    public @NotNull BungeeMessageService getMessageService() {
+        return this.messageApi.getMessageService();
+    }
+
+    @Override
     public boolean isChatLogAvailable() {
         return this.bootstrap.getProxy().getPluginManager().getPlugin("Chatlog") != null;
     }
+
 }

@@ -1,7 +1,7 @@
 package dev.qrowned.punish.common.command;
 
+import dev.qrowned.config.message.api.MessageService;
 import dev.qrowned.punish.api.command.AbstractPunishCommand;
-import dev.qrowned.punish.api.message.MessageHandler;
 import dev.qrowned.punish.api.punish.Punishment;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.punish.PunishmentReason;
@@ -27,7 +27,7 @@ public abstract class AbstractHistoryCommand<P> extends AbstractPunishCommand<P>
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 
     protected final PunishUserHandler userHandler;
-    protected final MessageHandler<P> messageHandler;
+    protected final MessageService<P> messageService;
     protected final PunishmentHandler punishmentHandler;
 
     @Override
@@ -39,7 +39,7 @@ public abstract class AbstractHistoryCommand<P> extends AbstractPunishCommand<P>
 
         this.userHandler.fetchUser(args[0]).thenAcceptAsync(abstractPunishUser -> {
             if (abstractPunishUser == null) {
-                this.messageHandler.getMessage("punish.user.notExisting").send(sender);
+                this.messageService.getMessage("punish.user.notExisting").send(sender);
                 return;
             }
 
@@ -47,11 +47,11 @@ public abstract class AbstractHistoryCommand<P> extends AbstractPunishCommand<P>
             int page = args.length > 1 && StringUtils.isNumeric(args[1]) ? Integer.parseInt(args[1]) : 1;
             this.getPunishments(uuid, page).thenAcceptAsync(historyMapping -> {
                 if (historyMapping.getTotalPunishments() == 0) {
-                    this.messageHandler.getMessage("punish.history.noPunishments").send(sender);
+                    this.messageService.getMessage("punish.history.noPunishments").send(sender);
                     return;
                 }
 
-                this.messageHandler.getMessage("punish.history.header").send(sender,
+                this.messageService.getMessage("punish.history.header").send(sender,
                         "%name%", abstractPunishUser.getName(),
                         "%uuid%", abstractPunishUser.getUuid().toString(),
                         "%page%", Integer.toString(page));
@@ -64,7 +64,7 @@ public abstract class AbstractHistoryCommand<P> extends AbstractPunishCommand<P>
                     if (punishment.isPardon()) {
                         AbstractPunishUser pardonPunishUser = this.userHandler.getUser(punishment.getPardonExecutor());
                         if (pardonPunishUser == null) return;
-                        this.messageHandler.getMessage("punish.history.entry.pardon").send(sender,
+                        this.messageService.getMessage("punish.history.entry.pardon").send(sender,
                                 "%date%", SIMPLE_DATE_FORMAT.format(punishment.getExecutionTime()),
                                 "%name%", abstractPunishUser.getName(),
                                 "%duration%", DurationFormatter.formatPunishDuration(punishment.getDuration()),
@@ -76,7 +76,7 @@ public abstract class AbstractHistoryCommand<P> extends AbstractPunishCommand<P>
                                 "%pardonDate%", SIMPLE_DATE_FORMAT.format(punishment.getPardonExecutionTime()),
                                 "%evidence%", punishment.getEvidence().isEmpty() ? "" : "§7[§e§l" + punishment.getEvidence().get() + "§7]");
                     } else {
-                        this.messageHandler.getMessage("punish.history.entry").send(sender,
+                        this.messageService.getMessage("punish.history.entry").send(sender,
                                 "%date%", SIMPLE_DATE_FORMAT.format(punishment.getExecutionTime()),
                                 "%name%", abstractPunishUser.getName(),
                                 "%duration%", DurationFormatter.formatPunishDuration(punishment.getDuration()),
@@ -87,7 +87,8 @@ public abstract class AbstractHistoryCommand<P> extends AbstractPunishCommand<P>
                     }
                 });
 
-                if (historyMapping.getRemaining() > 0) this.sendFooterMessage(sender, historyMapping.getRemaining(), page, abstractPunishUser.getName());
+                if (historyMapping.getRemaining() > 0)
+                    this.sendFooterMessage(sender, historyMapping.getRemaining(), page, abstractPunishUser.getName());
             });
         });
     }

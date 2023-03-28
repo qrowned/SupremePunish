@@ -1,12 +1,11 @@
 package dev.qrowned.punish.bungee.command.impl;
 
+import dev.qrowned.config.message.bungee.BungeeConfigMessage;
+import dev.qrowned.config.message.bungee.BungeeMessageService;
 import dev.qrowned.punish.api.command.annotation.Command;
-import dev.qrowned.punish.api.message.AbstractConfigMessage;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.AbstractPunishUser;
 import dev.qrowned.punish.api.user.PunishUserHandler;
-import dev.qrowned.punish.bungee.message.BungeeConfigMessage;
-import dev.qrowned.punish.bungee.message.BungeeMessageHandler;
 import dev.qrowned.punish.common.command.AbstractHistoryCommand;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -20,9 +19,9 @@ import java.util.UUID;
 public final class HistoryCommand extends AbstractHistoryCommand<CommandSender> {
 
     public HistoryCommand(@NotNull PunishUserHandler userHandler,
-                          @NotNull BungeeMessageHandler messageHandler,
+                          @NotNull BungeeMessageService messageService,
                           @NotNull PunishmentHandler punishmentHandler) {
-        super(userHandler, messageHandler, punishmentHandler);
+        super(userHandler, messageService, punishmentHandler);
     }
 
     @Override
@@ -41,7 +40,7 @@ public final class HistoryCommand extends AbstractHistoryCommand<CommandSender> 
 
     @Override
     protected void sendFooterMessage(CommandSender sender, int remaining, int currentPage, String name) {
-        BungeeConfigMessage message = (BungeeConfigMessage) super.messageHandler.getMessage("punish.history.footer");
+        BungeeConfigMessage message = (BungeeConfigMessage) super.messageService.getMessage("punish.history.footer");
         BaseComponent[] baseComponents = message.parseBaseComponent("%remaining%", Integer.toString(remaining));
         for (BaseComponent baseComponent : baseComponents) {
             baseComponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/history " + name + " " + (currentPage + 1)));

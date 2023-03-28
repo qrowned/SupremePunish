@@ -1,6 +1,6 @@
-package dev.qrowned.punish.common.config.impl;
+package dev.qrowned.punish.common.config;
 
-import dev.qrowned.punish.api.config.ConfigAdapter;
+import dev.qrowned.config.api.ConfigAdapter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;

@@ -1,8 +1,8 @@
 package dev.qrowned.punish.common.event.listener;
 
+import dev.qrowned.config.message.api.MessageService;
 import dev.qrowned.punish.api.event.EventAdapter;
 import dev.qrowned.punish.api.event.impl.PlayerPunishEvent;
-import dev.qrowned.punish.api.message.MessageHandler;
 import dev.qrowned.punish.api.punish.Punishment;
 import dev.qrowned.punish.api.user.AbstractPunishUser;
 import dev.qrowned.punish.api.user.PunishUserHandler;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public abstract class AbstractPunishListener<P> extends EventAdapter<PlayerPunishEvent> {
 
-    protected final MessageHandler<P> messageHandler;
+    protected final MessageService<P> messageService;
     protected final PunishUserHandler punishUserHandler;
     protected final PunishmentDataHandler punishmentDataHandler;
 
@@ -40,7 +40,7 @@ public abstract class AbstractPunishListener<P> extends EventAdapter<PlayerPunis
                     "%end%", DurationFormatter.formatPunishDuration(punishment.getRemainingDuration()),
                     "%id%", Integer.toString(punishment.getId())
             );
-            this.messageHandler.getMessage("punish.ban.notify").broadcast("supremepunish.notify.ban",
+            this.messageService.getMessage("punish.ban.notify").broadcast("supremepunish.notify.ban",
                     "%reason%", displayName,
                     "%duration%", DurationFormatter.formatPunishDuration(punishment.getDuration()),
                     "%executor%", executorUser.getName(),
@@ -49,12 +49,12 @@ public abstract class AbstractPunishListener<P> extends EventAdapter<PlayerPunis
         } else if (punishment.getType().equals(Punishment.Type.MUTE)) {
             P targetPlayer = this.getPlayer(target);
             if (targetPlayer != null)
-                this.messageHandler.getMessage("punish.mute.screen").send(targetPlayer,
+                this.messageService.getMessage("punish.mute.screen").send(targetPlayer,
                         "%reason%", displayName,
                         "%end%", DurationFormatter.formatPunishDuration(punishment.getRemainingDuration()),
                         "%id%", Integer.toString(punishment.getId())
                 );
-            this.messageHandler.getMessage("punish.mute.notify").broadcast("supremepunish.notify.mute",
+            this.messageService.getMessage("punish.mute.notify").broadcast("supremepunish.notify.mute",
                     "%reason%", displayName,
                     "%duration%", DurationFormatter.formatPunishDuration(punishment.getDuration()),
                     "%executor%", executorUser.getName(),
@@ -65,7 +65,7 @@ public abstract class AbstractPunishListener<P> extends EventAdapter<PlayerPunis
                     "%reason%", displayName,
                     "%id%", Integer.toString(punishment.getId())
             );
-            this.messageHandler.getMessage("punish.kick.notify").broadcast("supremepunish.notify.kick",
+            this.messageService.getMessage("punish.kick.notify").broadcast("supremepunish.notify.kick",
                     "%reason%", displayName,
                     "%executor%", executorUser.getName(),
                     "%target%", targetUser.getName(),

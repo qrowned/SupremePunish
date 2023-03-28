@@ -10,7 +10,7 @@ import dev.qrowned.punish.api.punish.PunishmentReason;
 import dev.qrowned.punish.api.result.PunishResult;
 import dev.qrowned.punish.api.user.PunishUserHandler;
 import dev.qrowned.punish.common.AbstractPunishPlugin;
-import dev.qrowned.punish.common.config.impl.PunishmentsConfig;
+import dev.qrowned.punish.common.config.PunishmentsConfig;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;

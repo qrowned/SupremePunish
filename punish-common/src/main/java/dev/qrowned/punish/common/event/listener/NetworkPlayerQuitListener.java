@@ -4,7 +4,6 @@ import dev.qrowned.punish.api.PunishPlugin;
 import dev.qrowned.punish.api.event.EventAdapter;
 import dev.qrowned.punish.api.event.EventListener;
 import dev.qrowned.punish.api.event.impl.NetworkPlayerQuitEvent;
-import dev.qrowned.punish.common.AbstractPunishPlugin;
 import dev.qrowned.punish.common.user.PunishUserDataHandler;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;

@@ -1,7 +1,7 @@
 package dev.qrowned.punish.common.command;
 
+import dev.qrowned.config.message.api.MessageService;
 import dev.qrowned.punish.api.command.AbstractPunishCommand;
-import dev.qrowned.punish.api.message.MessageHandler;
 import dev.qrowned.punish.api.punish.Punishment;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.punish.PunishmentReason;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public abstract class AbstractPunishInfoCommand<P> extends AbstractPunishCommand<P> {
 
-    private final MessageHandler<P> messageHandler;
+    private final MessageService<P> messageService;
     private final PunishUserHandler punishUserHandler;
     private final PunishmentHandler punishmentHandler;
 
@@ -29,7 +29,7 @@ public abstract class AbstractPunishInfoCommand<P> extends AbstractPunishCommand
 
         this.punishUserHandler.fetchUser(args[0]).thenAcceptAsync(abstractPunishUser -> {
             if (abstractPunishUser == null) {
-                this.messageHandler.getMessage("punish.user.notExisting").send(sender);
+                this.messageService.getMessage("punish.user.notExisting").send(sender);
                 return;
             }
 
@@ -39,7 +39,7 @@ public abstract class AbstractPunishInfoCommand<P> extends AbstractPunishCommand
 
             Punishment ban = optionalBan.orElse(null);
             Punishment mute = optionalMute.orElse(null);
-            this.messageHandler.getMessage("punish.user.info").send(sender,
+            this.messageService.getMessage("punish.user.info").send(sender,
                     "%name%", abstractPunishUser.getName(),
                     "%online%", abstractPunishUser.isOnline() ? "§aYes" : "§cNo",
                     "%uuid%", target.toString(),

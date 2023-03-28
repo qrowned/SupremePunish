@@ -1,12 +1,12 @@
 package dev.qrowned.punish.common;
 
+import dev.qrowned.config.api.ConfigService;
+import dev.qrowned.config.message.api.MessageService;
 import dev.qrowned.punish.api.PunishApi;
 import dev.qrowned.punish.api.PunishPlugin;
 import dev.qrowned.punish.api.amqp.PubSubProvider;
 import dev.qrowned.punish.api.command.CommandHandler;
-import dev.qrowned.punish.api.config.ConfigProvider;
 import dev.qrowned.punish.api.event.EventHandler;
-import dev.qrowned.punish.api.message.MessageHandler;
 import dev.qrowned.punish.api.platform.Platform;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.PunishUserHandler;
@@ -25,7 +25,7 @@ public class SupremePunishApi implements PunishApi {
     private final PubSubProvider pubSubProvider;
     private final PunishmentHandler punishmentHandler;
     private final CommandHandler<?> commandHandler;
-    private final MessageHandler<?> messageHandler;
+    private final MessageService<?> messageService;
 
     public SupremePunishApi(@NotNull PunishPlugin plugin) {
         this.plugin = plugin;
@@ -35,7 +35,7 @@ public class SupremePunishApi implements PunishApi {
         this.pubSubProvider = plugin.getPubSubProvider();
         this.punishmentHandler = plugin.getPunishmentHandler();
         this.commandHandler = plugin.getCommandHandler();
-        this.messageHandler = plugin.getMessageHandler();
+        this.messageService = plugin.getMessageService();
     }
 
     @Override
@@ -49,8 +49,8 @@ public class SupremePunishApi implements PunishApi {
     }
 
     @Override
-    public @NotNull ConfigProvider getConfigProvider() {
-        return this.plugin.getConfigProvider();
+    public @NotNull ConfigService getConfigService() {
+        return this.plugin.getConfigService();
     }
 
 }

@@ -7,7 +7,7 @@ import dev.qrowned.punish.api.bootstrap.PunishBootstrap;
 import dev.qrowned.punish.api.logger.PluginLogger;
 import dev.qrowned.punish.api.platform.Platform;
 import dev.qrowned.punish.bungee.PunishBungeePlugin;
-import dev.qrowned.punish.common.config.impl.LicenseConfig;
+import dev.qrowned.punish.common.config.LicenseConfig;
 import dev.qrowned.punish.common.logger.JavaPluginLogger;
 import dev.qrowned.punish.common.util.LicenseCheckerUtil;
 import lombok.Getter;
@@ -44,7 +44,7 @@ public final class PunishBungeeBootstrap implements PunishBootstrap, LoaderBoots
     @SneakyThrows
     public void onEnable() {
         // check license
-        LicenseConfig licenseConfig = this.plugin.getConfigProvider().getConfig("license", LicenseConfig.class);
+        LicenseConfig licenseConfig = this.plugin.getConfigService().getConfig("license.json", LicenseConfig.class);
         LicenseData licenseData = LicenseCheckerUtil.checkLicense(licenseConfig.getLicense());
         if (licenseData == null) {
             this.pluginLogger.severe("Your license is not valid! Please purchase the plugin or visit our support at url.qrowned.dev/discord !");

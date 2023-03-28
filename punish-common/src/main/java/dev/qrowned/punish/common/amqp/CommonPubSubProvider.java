@@ -8,7 +8,7 @@ import dev.qrowned.punish.api.amqp.channel.PubSubChannel;
 import dev.qrowned.punish.api.amqp.io.BinaryWriteBufferFiller;
 import dev.qrowned.punish.api.amqp.listener.PubSubListener;
 import dev.qrowned.punish.api.logger.PluginLogger;
-import dev.qrowned.punish.common.config.impl.RabbitMqConfig;
+import dev.qrowned.punish.common.config.RabbitMqConfig;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 

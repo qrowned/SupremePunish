@@ -1,11 +1,11 @@
 package dev.qrowned.punish.bungee.command.impl;
 
+import dev.qrowned.config.api.ConfigService;
+import dev.qrowned.config.message.bungee.BungeeMessageService;
 import dev.qrowned.punish.api.command.AbstractPunishCommand;
 import dev.qrowned.punish.api.command.annotation.Command;
 import dev.qrowned.punish.api.command.annotation.SubCommand;
-import dev.qrowned.punish.api.config.ConfigProvider;
 import dev.qrowned.punish.api.user.AbstractPunishUser;
-import dev.qrowned.punish.bungee.message.BungeeMessageHandler;
 import dev.qrowned.punish.common.command.AbstractReloadSubCommand;
 import dev.qrowned.punish.common.punish.PunishmentDataHandler;
 import dev.qrowned.punish.common.user.PunishUserDataHandler;
@@ -18,11 +18,11 @@ import java.util.UUID;
 @Command(name = "punish", permission = "supremepunish.punish")
 public final class PunishCommand extends AbstractPunishCommand<CommandSender> {
 
-    public PunishCommand(@NotNull ConfigProvider configProvider,
-                         @NotNull BungeeMessageHandler messageHandler,
+    public PunishCommand(@NotNull ConfigService configService,
+                         @NotNull BungeeMessageService messageService,
                          @NotNull PunishUserDataHandler punishUserDataHandler,
                          @NotNull PunishmentDataHandler punishmentDataHandler) {
-        PunishReloadSubCommand reloadSubCommand = new PunishReloadSubCommand(configProvider, messageHandler, punishUserDataHandler, punishmentDataHandler);
+        PunishReloadSubCommand reloadSubCommand = new PunishReloadSubCommand(configService, messageService, punishUserDataHandler, punishmentDataHandler);
         this.registerSubCommands(reloadSubCommand);
     }
 
@@ -48,11 +48,11 @@ public final class PunishCommand extends AbstractPunishCommand<CommandSender> {
     @SubCommand(name = "reload", permission = "supremepunish.reload", boundToClass = PunishCommand.class)
     public static class PunishReloadSubCommand extends AbstractReloadSubCommand<CommandSender> {
 
-        public PunishReloadSubCommand(ConfigProvider configProvider,
-                                      BungeeMessageHandler messageHandler,
+        public PunishReloadSubCommand(ConfigService configService,
+                                      BungeeMessageService messageService,
                                       PunishUserDataHandler punishUserDataHandler,
                                       PunishmentDataHandler punishmentDataHandler) {
-            super(configProvider, messageHandler, punishUserDataHandler, punishmentDataHandler);
+            super(configService, messageService, punishUserDataHandler, punishmentDataHandler);
         }
 
         @Override

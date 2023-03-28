@@ -1,10 +1,10 @@
 package dev.qrowned.punish.bungee.command.impl;
 
+import dev.qrowned.config.message.bungee.BungeeMessageService;
 import dev.qrowned.punish.api.command.annotation.Command;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.AbstractPunishUser;
 import dev.qrowned.punish.api.user.PunishUserHandler;
-import dev.qrowned.punish.bungee.message.BungeeMessageHandler;
 import dev.qrowned.punish.common.command.AbstractKickCommand;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -15,10 +15,10 @@ import java.util.UUID;
 @Command(name = "kick", permission = "supremepunish.kick")
 public final class KickCommand extends AbstractKickCommand<CommandSender> {
 
-    public KickCommand(@NotNull BungeeMessageHandler messageHandler,
+    public KickCommand(@NotNull BungeeMessageService messageService,
                        @NotNull PunishUserHandler punishUserHandler,
                        @NotNull PunishmentHandler punishmentHandler) {
-        super(messageHandler, punishUserHandler, punishmentHandler);
+        super(messageService, punishUserHandler, punishmentHandler);
     }
 
     @Override

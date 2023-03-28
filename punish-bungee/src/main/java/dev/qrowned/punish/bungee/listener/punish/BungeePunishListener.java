@@ -1,10 +1,10 @@
 package dev.qrowned.punish.bungee.listener.punish;
 
+import dev.qrowned.config.message.bungee.BungeeConfigMessage;
+import dev.qrowned.config.message.bungee.BungeeMessageService;
 import dev.qrowned.punish.api.event.EventListener;
 import dev.qrowned.punish.api.event.impl.PlayerPunishEvent;
 import dev.qrowned.punish.api.user.PunishUserHandler;
-import dev.qrowned.punish.bungee.message.BungeeConfigMessage;
-import dev.qrowned.punish.bungee.message.BungeeMessageHandler;
 import dev.qrowned.punish.common.event.listener.AbstractPunishListener;
 import dev.qrowned.punish.common.punish.PunishmentDataHandler;
 import net.md_5.bungee.api.CommandSender;
@@ -17,10 +17,10 @@ import java.util.UUID;
 @EventListener(clazz = PlayerPunishEvent.class)
 public final class BungeePunishListener extends AbstractPunishListener<CommandSender> {
 
-    public BungeePunishListener(@NotNull BungeeMessageHandler messageHandler,
+    public BungeePunishListener(@NotNull BungeeMessageService messageService,
                                 @NotNull PunishUserHandler punishUserHandler,
                                 @NotNull PunishmentDataHandler punishmentDataHandler) {
-        super(messageHandler, punishUserHandler, punishmentDataHandler);
+        super(messageService, punishUserHandler, punishmentDataHandler);
     }
 
     @Override
@@ -30,7 +30,7 @@ public final class BungeePunishListener extends AbstractPunishListener<CommandSe
 
     @Override
     protected void disconnect(@NotNull UUID uuid, @NotNull String messageId, String... format) {
-        BungeeConfigMessage configMessage = (BungeeConfigMessage) super.messageHandler.getMessage(messageId);
+        BungeeConfigMessage configMessage = (BungeeConfigMessage) super.messageService.getMessage(messageId);
         ProxiedPlayer proxiedPlayer = ProxyServer.getInstance().getPlayer(uuid);
         if (proxiedPlayer == null) return;
         proxiedPlayer.disconnect(configMessage.parseBaseComponent(format));

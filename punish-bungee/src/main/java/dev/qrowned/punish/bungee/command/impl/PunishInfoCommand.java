@@ -1,10 +1,10 @@
 package dev.qrowned.punish.bungee.command.impl;
 
+import dev.qrowned.config.message.bungee.BungeeMessageService;
 import dev.qrowned.punish.api.command.annotation.Command;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.AbstractPunishUser;
 import dev.qrowned.punish.api.user.PunishUserHandler;
-import dev.qrowned.punish.bungee.message.BungeeMessageHandler;
 import dev.qrowned.punish.common.command.AbstractPunishInfoCommand;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -17,10 +17,10 @@ import java.util.UUID;
 }, permission = "supremepunish.info")
 public final class PunishInfoCommand extends AbstractPunishInfoCommand<CommandSender> {
 
-    public PunishInfoCommand(@NotNull BungeeMessageHandler messageHandler,
+    public PunishInfoCommand(@NotNull BungeeMessageService messageService,
                              @NotNull PunishUserHandler punishUserHandler,
                              @NotNull PunishmentHandler punishmentHandler) {
-        super(messageHandler, punishUserHandler, punishmentHandler);
+        super(messageService, punishUserHandler, punishmentHandler);
     }
 
     @Override

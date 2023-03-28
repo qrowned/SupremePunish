@@ -1,7 +1,6 @@
 package dev.qrowned.punish.api.punish;
 
 import dev.qrowned.punish.api.result.PunishResult;
-import org.apache.commons.lang3.SerializationUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

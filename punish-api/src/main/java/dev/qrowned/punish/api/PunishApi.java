@@ -1,10 +1,10 @@
 package dev.qrowned.punish.api;
 
+import dev.qrowned.config.api.ConfigService;
+import dev.qrowned.config.message.api.MessageService;
 import dev.qrowned.punish.api.amqp.PubSubProvider;
 import dev.qrowned.punish.api.command.CommandHandler;
-import dev.qrowned.punish.api.config.ConfigProvider;
 import dev.qrowned.punish.api.event.EventHandler;
-import dev.qrowned.punish.api.message.MessageHandler;
 import dev.qrowned.punish.api.platform.Platform;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.PunishUserHandler;
@@ -16,7 +16,7 @@ public interface PunishApi {
 
     @NotNull String getServerName();
 
-    @NotNull ConfigProvider getConfigProvider();
+    @NotNull ConfigService getConfigService();
 
     @NotNull PunishUserHandler getUserHandler();
 
@@ -28,6 +28,6 @@ public interface PunishApi {
 
     @NotNull CommandHandler<?> getCommandHandler();
 
-    @NotNull MessageHandler<?> getMessageHandler();
+    @NotNull MessageService<?> getMessageService();
 
 }

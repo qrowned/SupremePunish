@@ -1,7 +1,7 @@
 package dev.qrowned.punish.common.command;
 
+import dev.qrowned.config.message.api.MessageService;
 import dev.qrowned.punish.api.command.AbstractPunishCommand;
-import dev.qrowned.punish.api.message.MessageHandler;
 import dev.qrowned.punish.api.punish.Punishment;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.punish.PunishmentReason;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public abstract class AbstractKickCommand<P> extends AbstractPunishCommand<P> {
 
-    private final MessageHandler<P> messageHandler;
+    private final MessageService<P> messageService;
     private final PunishUserHandler punishUserHandler;
     private final PunishmentHandler punishmentHandler;
 
@@ -31,12 +31,12 @@ public abstract class AbstractKickCommand<P> extends AbstractPunishCommand<P> {
 
         this.punishUserHandler.fetchUser(args[0]).thenAcceptAsync(target -> {
             if (target == null) {
-                this.messageHandler.getMessage("punish.user.notExisting").send(sender);
+                this.messageService.getMessage("punish.user.notExisting").send(sender);
                 return;
             }
 
             if (!target.isOnline()) {
-                this.messageHandler.getMessage("punish.user.notOnline").send(sender);
+                this.messageService.getMessage("punish.user.notOnline").send(sender);
                 return;
             }
 
@@ -46,14 +46,14 @@ public abstract class AbstractKickCommand<P> extends AbstractPunishCommand<P> {
                 if (punishmentReason != null) {
                     this.punishmentHandler.punish(target.getUuid(), executor, punishmentReason).thenAcceptAsync(result -> {
                         if (!result.isSuccess()) {
-                            this.messageHandler.getMessage(result.getMessage()).send(sender);
+                            this.messageService.getMessage(result.getMessage()).send(sender);
                         }
                     });
                     return;
                 } else if (this.hasPermission(sender, "supremepunish.kick.custom")) {
                     this.punishmentHandler.kick(target.getUuid(), executor, reason).thenAcceptAsync(result -> {
                         if (!result.isSuccess()) {
-                            this.messageHandler.getMessage(result.getMessage()).send(sender);
+                            this.messageService.getMessage(result.getMessage()).send(sender);
                         }
                     });
                     return;

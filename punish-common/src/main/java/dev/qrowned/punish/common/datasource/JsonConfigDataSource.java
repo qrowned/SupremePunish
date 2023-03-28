@@ -1,7 +1,7 @@
 package dev.qrowned.punish.common.datasource;
 
 import dev.qrowned.punish.api.database.AbstractDataSource;
-import dev.qrowned.punish.common.config.impl.MySqlConfig;
+import dev.qrowned.punish.common.config.MySqlConfig;
 import org.jetbrains.annotations.NotNull;
 
 public class JsonConfigDataSource extends AbstractDataSource {

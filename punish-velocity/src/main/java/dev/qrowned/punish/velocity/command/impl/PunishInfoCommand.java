@@ -2,13 +2,12 @@ package dev.qrowned.punish.velocity.command.impl;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
+import dev.qrowned.config.message.velocity.VelocityMessageService;
 import dev.qrowned.punish.api.command.annotation.Command;
-import dev.qrowned.punish.api.message.MessageHandler;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.AbstractPunishUser;
 import dev.qrowned.punish.api.user.PunishUserHandler;
 import dev.qrowned.punish.common.command.AbstractPunishInfoCommand;
-import dev.qrowned.punish.velocity.message.VelocityMessageHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -18,10 +17,10 @@ import java.util.UUID;
 }, permission = "supremepunish.info")
 public final class PunishInfoCommand extends AbstractPunishInfoCommand<CommandSource> {
 
-    public PunishInfoCommand(@NotNull VelocityMessageHandler messageHandler,
+    public PunishInfoCommand(@NotNull VelocityMessageService messageService,
                              @NotNull PunishUserHandler punishUserHandler,
                              @NotNull PunishmentHandler punishmentHandler) {
-        super(messageHandler, punishUserHandler, punishmentHandler);
+        super(messageService, punishUserHandler, punishmentHandler);
     }
 
     @Override

@@ -179,7 +179,7 @@
     },
     {
       "id": "punish.history.footer",
-      "message":[
+      "message": [
         "%prefix% There are §6%remaining% §7remaining punishments."
       ]
     },

@@ -2,18 +2,17 @@ package dev.qrowned.punish.common;
 
 import dev.qrowned.chatlog.api.ChatLogApi;
 import dev.qrowned.chatlog.api.ChatLogApiProvider;
-import dev.qrowned.chatlog.api.log.ChatLog;
+import dev.qrowned.config.CommonConfigService;
+import dev.qrowned.config.api.ConfigService;
 import dev.qrowned.punish.api.PunishApiProvider;
 import dev.qrowned.punish.api.PunishPlugin;
-import dev.qrowned.punish.api.config.ConfigProvider;
 import dev.qrowned.punish.api.logger.PluginLogger;
 import dev.qrowned.punish.api.platform.Platform;
 import dev.qrowned.punish.common.amqp.CommonPubSubProvider;
-import dev.qrowned.punish.common.config.CommonConfigProvider;
-import dev.qrowned.punish.common.config.impl.LicenseConfig;
-import dev.qrowned.punish.common.config.impl.MySqlConfig;
-import dev.qrowned.punish.common.config.impl.PunishmentsConfig;
-import dev.qrowned.punish.common.config.impl.RabbitMqConfig;
+import dev.qrowned.punish.common.config.LicenseConfig;
+import dev.qrowned.punish.common.config.MySqlConfig;
+import dev.qrowned.punish.common.config.PunishmentsConfig;
+import dev.qrowned.punish.common.config.RabbitMqConfig;
 import dev.qrowned.punish.common.datasource.JsonConfigDataSource;
 import dev.qrowned.punish.common.event.CommonEventHandler;
 import dev.qrowned.punish.common.event.listener.NetworkPlayerJoinListener;
@@ -48,7 +47,7 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
 
     protected ChatLogApi chatLogApi = null;
 
-    protected final ConfigProvider configProvider = new CommonConfigProvider();
+    protected final ConfigService configService = new CommonConfigService("./plugins/SupremePunish/");
 
     public AbstractPunishPlugin(@NotNull Platform platform) {
         this.platform = platform;
@@ -56,10 +55,10 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
 
     public void load() {
         // register configs
-        this.configProvider.registerConfig("license", new File(PUNISH_FOLDER_PATH + "license.json"), LicenseConfig.class);
-        this.configProvider.registerConfig("mysql", new File(PUNISH_FOLDER_PATH + "mysql.json"), MySqlConfig.class);
-        this.configProvider.registerConfig("rabbitMq", new File(PUNISH_FOLDER_PATH + "rabbitMq.json"), RabbitMqConfig.class);
-        this.configProvider.registerConfig("punishments", new File(PUNISH_FOLDER_PATH + "punishments.json"), PunishmentsConfig.class);
+        this.configService.registerConfig("license.json", LicenseConfig.class);
+        this.configService.registerConfig("mysql.json", MySqlConfig.class);
+        this.configService.registerConfig("rabbitMq.json", RabbitMqConfig.class);
+        this.configService.registerConfig("punishments.json", PunishmentsConfig.class);
     }
 
     public void enable() {
@@ -70,11 +69,11 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
         }
 
         // initialize datasource and create tables
-        this.dataSource = new JsonConfigDataSource(this.configProvider.getConfig("mysql", MySqlConfig.class));
+        this.dataSource = new JsonConfigDataSource(this.configService.getConfig("mysql.json", MySqlConfig.class));
         DataTableCreationUtil.createTables(this.dataSource);
 
         // initialize amqp and register listener
-        this.pubSubProvider = new CommonPubSubProvider(this.configProvider.getConfig("rabbitMq", RabbitMqConfig.class), this.getLogger());
+        this.pubSubProvider = new CommonPubSubProvider(this.configService.getConfig("rabbitMq.json", RabbitMqConfig.class), this.getLogger());
 
         this.registerHandler();
 
@@ -116,7 +115,7 @@ public abstract class AbstractPunishPlugin implements PunishPlugin {
         this.punishmentHandler = new CommonPunishmentHandler(
                 this.eventHandler,
                 this,
-                this.configProvider.getConfig("punishments", PunishmentsConfig.class),
+                this.configService.getConfig("punishments.json", PunishmentsConfig.class),
                 this.userHandler,
                 this.getMetricsBase(),
                 this.punishmentDataHandler

@@ -2,12 +2,12 @@ package dev.qrowned.punish.velocity.command.impl;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.Player;
+import dev.qrowned.config.message.velocity.VelocityMessageService;
 import dev.qrowned.punish.api.command.annotation.Command;
 import dev.qrowned.punish.api.punish.PunishmentHandler;
 import dev.qrowned.punish.api.user.AbstractPunishUser;
 import dev.qrowned.punish.api.user.PunishUserHandler;
 import dev.qrowned.punish.common.command.AbstractBanCommand;
-import dev.qrowned.punish.velocity.message.VelocityMessageHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -15,10 +15,10 @@ import java.util.UUID;
 @Command(name = "ban", permission = "supremepunish.ban")
 public final class BanCommand extends AbstractBanCommand<CommandSource> {
 
-    public BanCommand(@NotNull VelocityMessageHandler messageHandler,
+    public BanCommand(@NotNull VelocityMessageService messageService,
                       @NotNull PunishUserHandler punishUserHandler,
                       @NotNull PunishmentHandler punishmentHandler) {
-        super(messageHandler, punishUserHandler, punishmentHandler);
+        super(messageService, punishUserHandler, punishmentHandler);
     }
 
     @Override

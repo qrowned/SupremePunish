@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 
 import java.nio.file.Path;
 
-@Plugin(authors = "qrowned", version = "1.0.0", id = "supremepunish", name = "SupremePunish",
+@Plugin(authors = "qrowned", version = "1.0.2", id = "supremepunish", name = "SupremePunish",
         dependencies = {
                 @Dependency(id = "chatlog_velocity", optional = true)
         })
